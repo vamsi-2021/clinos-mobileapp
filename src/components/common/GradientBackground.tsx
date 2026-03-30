@@ -11,7 +11,7 @@ type GradientBackgroundProps = {
 function GradientBackground({
   children,
   style,
-}: GradientBackgroundProps): React.JSX.Element {
+}: GradientBackgroundProps): JSX.Element {
   return (
     <LinearGradient
       colors={[Colors.secondary, Colors.primary]}

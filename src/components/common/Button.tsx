@@ -26,7 +26,7 @@ function Button({
   loading = false,
   disabled = false,
   style,
-}: ButtonProps): React.JSX.Element {
+}: ButtonProps): JSX.Element {
   const isDisabled = disabled || loading;
 
   return (

@@ -16,7 +16,7 @@ const NAV_ITEMS = [
   {key: 'Matches', label: 'Matches', icon: '◎'},
 ] as const;
 
-function CustomDrawer(props: DrawerContentComponentProps): React.JSX.Element {
+function CustomDrawer(props: DrawerContentComponentProps): JSX.Element {
   const {navigation, state} = props;
   const activeRoute = state.routes[state.index].name;
 

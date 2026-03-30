@@ -9,7 +9,7 @@ import MatchesScreen from '../screens/main/MatchesScreen';
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
-function MainNavigator(): React.JSX.Element {
+function MainNavigator(): JSX.Element {
   return (
     <Drawer.Navigator
       drawerContent={props => <CustomDrawer {...props} />}

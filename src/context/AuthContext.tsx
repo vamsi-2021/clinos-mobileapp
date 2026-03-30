@@ -8,7 +8,7 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
-export function AuthProvider({children}: {children: React.ReactNode}): React.JSX.Element {
+export function AuthProvider({children}: {children: React.ReactNode}): JSX.Element {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const login = () => setIsAuthenticated(true);

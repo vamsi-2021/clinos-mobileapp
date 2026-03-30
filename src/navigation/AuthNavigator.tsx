@@ -6,7 +6,7 @@ import RegisterScreen from '../screens/auth/RegisterScreen';
 
 const Stack = createNativeStackNavigator<AuthStackParamList>();
 
-function AuthNavigator(): React.JSX.Element {
+function AuthNavigator(): JSX.Element {
   return (
     <Stack.Navigator
       initialRouteName="Login"

@@ -7,7 +7,7 @@ import {useAuth} from '../context/AuthContext';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-function RootNavigator(): React.JSX.Element {
+function RootNavigator(): JSX.Element {
   const {isAuthenticated} = useAuth();
 
   return (
