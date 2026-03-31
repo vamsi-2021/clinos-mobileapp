@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
+  Pressable,
   Dimensions,
 } from 'react-native';
 import {DrawerNavigationProp} from '@react-navigation/drawer';
@@ -19,6 +20,35 @@ type DashboardScreenProps = {
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
+// ── Dashboard color palette ──────────────────────────────────────────────────
+const DC = {
+  // Status
+  eligible:        '#2BAE66',
+  eligibleBg:      '#D1FAE5',
+  eligibleScore:   '#1FAD7D',
+  likelyEligible:  '#127DA1',
+  likelyBg:        '#EBF5F8',
+  potential:       '#F8A007',
+  potentialBg:     '#FEF3C7',
+  potentialScore:  '#D97706',
+  potentialBorder: '#FDE68A',
+  needsReview:     '#E5484D',
+  // Neutral
+  iconBg:          '#EBF5F8',
+  actionNeutralBg: '#F1F5F9',
+  actionNeutralIcon:'#64748B',
+  actionNeutralBorder:'#E2E8F0',
+  eligibleBorder:  '#A7F3D0',
+  // Chart
+  barTargetBg:     '#E2E8F0',
+  gridLine:        '#CBD5E1',
+  axisLine:        '#94A3B8',
+  barSelected:     '#CCCCCC',
+  // Common
+  white:           '#fff',
+  shadow:          '#000',
+};
+
 // ── Stat cards ──────────────────────────────────────────────────────────────
 const STAT_CARDS = [
   {
@@ -27,7 +57,7 @@ const STAT_CARDS = [
     trend: '+12%',
     trendLabel: 'vs last month',
     trendUp: true,
-    iconBg: '#EBF5F8',
+    iconBg: DC.iconBg,
     iconColor: Colors.primary,
     icon: '👥',
   },
@@ -37,7 +67,7 @@ const STAT_CARDS = [
     trend: '0%',
     trendLabel: 'vs last month',
     trendUp: null,
-    iconBg: '#EBF5F8',
+    iconBg: DC.iconBg,
     iconColor: Colors.primary,
     icon: '⚗',
   },
@@ -48,7 +78,7 @@ const STAT_CARDS = [
     trendLabel: 'vs last month',
     trendUp: true,
     subLabel: '+1 likely eligible',
-    iconBg: '#EBF5F8',
+    iconBg: DC.iconBg,
     iconColor: Colors.primary,
     icon: '✓',
   },
@@ -58,7 +88,7 @@ const STAT_CARDS = [
     trend: '+5%',
     trendLabel: 'vs last month',
     trendUp: true,
-    iconBg: '#EBF5F8',
+    iconBg: DC.iconBg,
     iconColor: Colors.primary,
     icon: '◎',
   },
@@ -68,10 +98,10 @@ const STAT_CARDS = [
 type DistributionItem = {label: string; count: number; color: string};
 
 const DISTRIBUTION_COLORS: Record<string, string> = {
-  eligible: '#2BAE66',
-  likely_eligible: '#127DA1',
-  potential: '#F8A007',
-  needs_review: '#E5484D',
+  eligible: DC.eligible,
+  likely_eligible: DC.likelyEligible,
+  potential: DC.potential,
+  needs_review: DC.needsReview,
 };
 
 const DEFAULT_DISTRIBUTION: DistributionItem[] = [
@@ -89,7 +119,12 @@ const TRIALS = [
   {id: 'MELANOMA-IO-101', enrolled: 30, target: 200},
   {id: 'BRCA-PANC-201', enrolled: 20, target: 150},
 ];
-const MAX_TARGET = Math.max(...TRIALS.map(t => t.target));
+const MAX_CHART_VALUE = 600;
+// content padding (16*2) + card padding (16*2) + label width (110) = 174
+const BAR_AREA_WIDTH = SCREEN_WIDTH - 174;
+// label width only — paddingRight is internal, bars start right at 110
+const CHART_LABEL_WIDTH = 110;
+const CHART_X_VALUES = [0, 150, 300, 450, 600];
 
 // ── Recent matches ───────────────────────────────────────────────────────────
 const RECENT_MATCHES = [
@@ -98,40 +133,40 @@ const RECENT_MATCHES = [
     name: 'Non-Small Cell Lung C...',
     trial: 'KRAS-LUNG-301',
     status: 'Likely Eligible',
-    statusColor: '#127DA1',
-    statusBg: '#EBF5F8',
-    scoreBg: '#EBF5F8',
-    scoreColor: '#127DA1',
+    statusColor: DC.likelyEligible,
+    statusBg: DC.likelyBg,
+    scoreBg: DC.likelyBg,
+    scoreColor: DC.likelyEligible,
   },
   {
     score: 95,
     name: 'Triple-Negative Breast Cancer',
     trial: 'BRCA-TNBC-201',
     status: 'Eligible',
-    statusColor: '#fff',
-    statusBg: '#2BAE66',
-    scoreBg: '#D1FAE5',
-    scoreColor: '#1FAD7D',
+    statusColor: DC.white,
+    statusBg: DC.eligible,
+    scoreBg: DC.eligibleBg,
+    scoreColor: DC.eligibleScore,
   },
   {
     score: 72,
     name: 'Metastatic Colorec...',
     trial: 'BRAF-CRC-301',
     status: 'Potentially Eligible',
-    statusColor: '#fff',
-    statusBg: '#F8A007',
-    scoreBg: '#FEF3C7',
-    scoreColor: '#D97706',
+    statusColor: DC.white,
+    statusBg: DC.potential,
+    scoreBg: DC.potentialBg,
+    scoreColor: DC.potentialScore,
   },
   {
     score: 98,
     name: 'Advanced Melanoma',
     trial: 'MELANOMA-IO-101',
     status: 'Eligible',
-    statusColor: '#fff',
-    statusBg: '#2BAE66',
-    scoreBg: '#D1FAE5',
-    scoreColor: '#1FAD7D',
+    statusColor: DC.white,
+    statusBg: DC.eligible,
+    scoreBg: DC.eligibleBg,
+    scoreColor: DC.eligibleScore,
   },
 ];
 
@@ -139,27 +174,27 @@ const RECENT_MATCHES = [
 const ACTION_ITEMS = [
   {
     icon: '✓',
-    iconBg: '#D1FAE5',
-    iconColor: '#1FAD7D',
-    borderColor: '#A7F3D0',
+    iconBg: DC.eligibleBg,
+    iconColor: DC.eligibleScore,
+    borderColor: DC.eligibleBorder,
     title: '3 Patients Ready for Referral',
     desc: 'High-confidence matches awaiting coordinator review',
     action: 'Review',
   },
   {
     icon: '!',
-    iconBg: '#FEF3C7',
-    iconColor: '#D97706',
-    borderColor: '#FDE68A',
+    iconBg: DC.potentialBg,
+    iconColor: DC.potentialScore,
+    borderColor: DC.potentialBorder,
     title: '1 Match Needs Verification',
     desc: 'Conflicting biomarker data requires clinical review',
     action: 'Verify',
   },
   {
     icon: '⏰',
-    iconBg: '#F1F5F9',
-    iconColor: '#64748B',
-    borderColor: '#E2E8F0',
+    iconBg: DC.actionNeutralBg,
+    iconColor: DC.actionNeutralIcon,
+    borderColor: DC.actionNeutralBorder,
     title: '2 Trials Updated Eligibility',
     desc: 'Re-run matching for affected patients',
     action: 'Update',
@@ -281,33 +316,52 @@ const DonutSegments = ({
   );
 };
 
-// ── Tooltip state ─────────────────────────────────────────────────────────────
-const EnrollmentBar = ({trial}: {trial: (typeof TRIALS)[0]}) => {
-  const [showTip, setShowTip] = useState(false);
-  const BAR_WIDTH = SCREEN_WIDTH - 140;
-  const enrolledW = (trial.enrolled / MAX_TARGET) * BAR_WIDTH;
-  const targetW = (trial.target / MAX_TARGET) * BAR_WIDTH;
+// ── Dashed grid line ──────────────────────────────────────────────────────────
+const DashedLine = ({height}: {height: number}) => {
+  const dashH = 4;
+  const gapH = 4;
+  const count = Math.ceil(height / (dashH + gapH));
+  return (
+    <View style={{width: 1, height, overflow: 'hidden'}}>
+      {Array.from({length: count}, (_, i) => (
+        <View
+          key={i}
+          style={{width: 1, height: dashH, backgroundColor: DC.gridLine, marginBottom: gapH}}
+        />
+      ))}
+    </View>
+  );
+};
+
+// ── Enrollment bar ────────────────────────────────────────────────────────────
+const BAR_ROW_HEIGHT = 36; // barStack(24) + marginBottom(12)
+
+const EnrollmentBar = ({
+  trial,
+  index,
+  isActive,
+  onPress,
+}: {
+  trial: (typeof TRIALS)[0];
+  index: number;
+  isActive: boolean;
+  onPress: (y: number) => void;
+}) => {
+  const enrolledW = (trial.enrolled / MAX_CHART_VALUE) * BAR_AREA_WIDTH;
+  const targetW = (trial.target / MAX_CHART_VALUE) * BAR_AREA_WIDTH;
 
   return (
     <View style={styles.barRow}>
       <Text style={styles.barLabel}>{trial.id}</Text>
-      <View style={styles.barTrack}>
-        {/* Target bar (grey) */}
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => onPress(index * BAR_ROW_HEIGHT)}
+        style={[styles.barStack, isActive && {backgroundColor: DC.barSelected, borderRadius: 4}]}>
+        {/* Enrolled bar (teal) — top */}
+        <View style={[styles.barEnrolled, {width: enrolledW}]} />
+        {/* Target bar (grey) — bottom */}
         <View style={[styles.barTarget, {width: targetW}]} />
-        {/* Enrolled bar (teal) */}
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => setShowTip(v => !v)}
-          style={[styles.barEnrolled, {width: enrolledW}]}
-        />
-        {showTip && (
-          <View style={styles.tooltip}>
-            <Text style={styles.tooltipTitle}>{trial.id}</Text>
-            <Text style={styles.tooltipEnrolled}>Enrolled : {trial.enrolled}</Text>
-            <Text style={styles.tooltipTarget}>Target : {trial.target}</Text>
-          </View>
-        )}
-      </View>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -315,6 +369,8 @@ const EnrollmentBar = ({trial}: {trial: (typeof TRIALS)[0]}) => {
 // ── Main screen ───────────────────────────────────────────────────────────────
 const DashboardScreen = ({navigation}: DashboardScreenProps) => {
   const [distribution, setDistribution] = useState<DistributionItem[]>(DEFAULT_DISTRIBUTION);
+  const [enrollChartHeight, setEnrollChartHeight] = useState(0);
+  const [activeTrial, setActiveTrial] = useState<{trial: (typeof TRIALS)[0]; y: number} | null>(null);
 
   useEffect(() => {
     api
@@ -354,6 +410,7 @@ const DashboardScreen = ({navigation}: DashboardScreenProps) => {
       </View>
 
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+        <Pressable onPress={() => setActiveTrial(null)}>
         {/* Take a Tour */}
         <TouchableOpacity style={styles.tourButton} activeOpacity={0.8}>
           <Text style={styles.tourIcon}>?</Text>
@@ -431,12 +488,77 @@ const DashboardScreen = ({navigation}: DashboardScreenProps) => {
               <Text style={styles.viewAllText}>View All →</Text>
             </TouchableOpacity>
           </View>
-          {TRIALS.map(trial => (
-            <EnrollmentBar key={trial.id} trial={trial} />
-          ))}
+          <View
+            onLayout={e => setEnrollChartHeight(e.nativeEvent.layout.height)}
+            style={{position: 'relative'}}>
+            {/* Thick left + bottom axis lines */}
+            <View
+              style={{
+                position: 'absolute',
+                left: CHART_LABEL_WIDTH,
+                top: 0,
+                right: 0,
+                bottom: 0,
+                borderLeftWidth: 2,
+                borderBottomWidth: 2,
+                borderColor: DC.axisLine,
+              }}
+              pointerEvents="none"
+            />
+            {/* Dashed vertical gridlines */}
+            {enrollChartHeight > 0 && (
+              <View
+                style={{
+                  position: 'absolute',
+                  left: CHART_LABEL_WIDTH,
+                  top: 0,
+                  right: 0,
+                  height: enrollChartHeight,
+                }}
+                pointerEvents="none">
+                {CHART_X_VALUES.filter(v => v > 0).map(v => (
+                  <View
+                    key={v}
+                    style={{
+                      position: 'absolute',
+                      left: (v / MAX_CHART_VALUE) * BAR_AREA_WIDTH,
+                      top: 0,
+                    }}>
+                    <DashedLine height={enrollChartHeight} />
+                  </View>
+                ))}
+              </View>
+            )}
+            {TRIALS.map((trial, index) => (
+              <EnrollmentBar
+                key={trial.id}
+                trial={trial}
+                index={index}
+                isActive={activeTrial?.trial.id === trial.id}
+                onPress={y =>
+                  setActiveTrial(prev =>
+                    prev?.trial.id === trial.id ? null : {trial, y},
+                  )
+                }
+              />
+            ))}
+            {/* Tooltip — last child so it renders on top of bars */}
+            {activeTrial && (
+              <View
+                style={[
+                  styles.tooltip,
+                  {top: Math.min(activeTrial.y, enrollChartHeight - 80)},
+                ]}
+                pointerEvents="none">
+                <Text style={styles.tooltipTitle}>{activeTrial.trial.id}</Text>
+                <Text style={styles.tooltipEnrolled}>Enrolled : {activeTrial.trial.enrolled}</Text>
+                <Text style={styles.tooltipTarget}>Target : {activeTrial.trial.target}</Text>
+              </View>
+            )}
+          </View>
           {/* X-axis labels */}
           <View style={styles.xAxis}>
-            {[0, 150, 300, 450, 600].map(v => (
+            {CHART_X_VALUES.map(v => (
               <Text key={v} style={styles.xAxisLabel}>
                 {v}
               </Text>
@@ -488,6 +610,7 @@ const DashboardScreen = ({navigation}: DashboardScreenProps) => {
             </View>
           ))}
         </View>
+        </Pressable>
       </ScrollView>
     </SafeAreaView>
   );
@@ -597,7 +720,7 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     padding: 16,
     marginBottom: 12,
-    shadowColor: '#000',
+    shadowColor: DC.shadow,
     shadowOpacity: 0.04,
     shadowRadius: 6,
     shadowOffset: {width: 0, height: 2},
@@ -670,7 +793,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 16,
     marginBottom: 12,
-    shadowColor: '#000',
+    shadowColor: DC.shadow,
     shadowOpacity: 0.04,
     shadowRadius: 6,
     shadowOffset: {width: 0, height: 2},
@@ -730,7 +853,7 @@ const styles = StyleSheet.create({
   barRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 12,
   },
   barLabel: {
     width: 110,
@@ -739,55 +862,53 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     paddingRight: 8,
   },
-  barTrack: {
+  barStack: {
     flex: 1,
-    position: 'relative',
-    height: 20,
-    justifyContent: 'center',
+    gap: 4,
+    paddingLeft: 2,
   },
   barTarget: {
-    position: 'absolute',
     height: 10,
-    backgroundColor: '#E2E8F0',
-    borderRadius: 5,
-    top: 5,
+    backgroundColor: DC.barTargetBg,
+    borderTopRightRadius: 2,
+    borderBottomRightRadius: 2,
   },
   barEnrolled: {
-    position: 'absolute',
-    height: 14,
+    height: 10,
     backgroundColor: Colors.primary,
-    borderRadius: 5,
-    top: 3,
+    borderTopRightRadius: 2,
+    borderBottomRightRadius: 2,
   },
   tooltip: {
     position: 'absolute',
-    top: 20,
-    left: 20,
-    backgroundColor: Colors.white,
-    borderRadius: 10,
-    padding: 10,
-    shadowColor: '#000',
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 8,
+    padding: 8,
+    shadowColor: DC.shadow,
+    shadowOpacity: 0.12,
+    shadowRadius: 6,
     shadowOffset: {width: 0, height: 3},
-    elevation: 6,
+    elevation: 8,
     zIndex: 99,
-    minWidth: 150,
+    minWidth: 130,
   },
   tooltipTitle: {
-    fontSize: 13,
+    fontSize: 12,
     fontWeight: '700',
     color: Colors.textHeading,
-    marginBottom: 4,
+    marginBottom: 3,
   },
   tooltipEnrolled: {
     fontSize: 15,
     fontWeight: '700',
     color: Colors.primary,
+    marginBottom: 1,
   },
   tooltipTarget: {
     fontSize: 13,
+    fontWeight: '400',
     color: Colors.textMuted,
+    opacity: 0.5,
   },
   xAxis: {
     flexDirection: 'row',
