@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -16,12 +16,14 @@ import {
   ChevronRightIcon,
   CirclesIcon,
   DashboardIcon,
+  LogoutIcon,
   PatientsIcon,
   TrialsIcon,
 } from '../../assets/icons';
 import GradientBackground from '../common/GradientBackground';
 import { SvgProps } from 'react-native-svg';
 import { GlobalStyles } from '../../styles/GlobalStyles';
+import { useAuth } from '../../context/AuthContext';
 
 type NavItem = {
   key: 'Dashboard' | 'Patients' | 'Trials' | 'Matches';
@@ -39,6 +41,8 @@ const NAV_ITEMS: NavItem[] = [
 function CustomDrawer(props: DrawerContentComponentProps): JSX.Element {
   const {navigation, state} = props;
   const activeRoute = state.routes[state.index].name;
+  const {logout} = useAuth();
+  const [accountMenuOpen, setAccountMenuOpen] = useState(false);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -106,17 +110,41 @@ function CustomDrawer(props: DrawerContentComponentProps): JSX.Element {
 
         <View style={styles.divider} />
 
-        {/* User Profile */}
-        <TouchableOpacity style={styles.userRow} activeOpacity={0.8}>
-          <View style={styles.avatar}>
-            <Text style={styles.avatarInitial}>N</Text>
-          </View>
-          <View style={styles.userInfo}>
-            <Text style={styles.userName}>Nandini Kalidindi</Text>
-            <Text style={styles.userEmail}>nandhini206@outlook.com</Text>
-          </View>
-          <ChevronDownIcon width={16} height={16} stroke={Colors.textBody}/>
-        </TouchableOpacity>
+        {/* User Profile + overlaid Account Menu */}
+        <View style={styles.userSection}>
+          {accountMenuOpen && (
+            <View style={styles.accountMenu}>
+              <Text style={styles.accountMenuTitle}>My Account</Text>
+              <View style={styles.accountMenuDivider} />
+              <TouchableOpacity
+                style={styles.signOutRow}
+                activeOpacity={0.75}
+                onPress={logout}>
+                <LogoutIcon width={18} height={18} stroke={Colors.danger} />
+                <Text style={styles.signOutText}>Sign Out</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+
+          <TouchableOpacity
+            style={styles.userRow}
+            activeOpacity={0.8}
+            onPress={() => setAccountMenuOpen(prev => !prev)}>
+            <View style={styles.avatar}>
+              <Text style={styles.avatarInitial}>N</Text>
+            </View>
+            <View style={styles.userInfo}>
+              <Text style={styles.userName}>Nandini Kalidindi</Text>
+              <Text style={styles.userEmail}>nandhini206@outlook.com</Text>
+            </View>
+            <ChevronDownIcon
+              width={16}
+              height={16}
+              stroke={Colors.textBody}
+              style={{transform: [{rotate: accountMenuOpen ? '180deg' : '0deg'}]}}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
     </SafeAreaView>
   );
