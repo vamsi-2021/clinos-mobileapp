@@ -29,7 +29,7 @@ const PatientsScreen = ({navigation}: PatientsScreenProps) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.openDrawer()} style={styles.menuButton}>
-          <MenuIcon width={24} height={24} fill={Colors.textHeading} />
+          <MenuIcon width={24} height={24} stroke={Colors.textMuted} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Patients</Text>
       </View>
