@@ -3,18 +3,38 @@ import {
   View,
   Text,
   TouchableOpacity,
-  StyleSheet,
   SafeAreaView,
 } from 'react-native';
 import {DrawerContentComponentProps} from '@react-navigation/drawer';
 import {Colors} from '../../constants/theme';
+import {styles} from './CustomDrawer.styles';
 
-const NAV_ITEMS = [
-  {key: 'Dashboard', label: 'Dashboard', icon: '⊞'},
-  {key: 'Patients', label: 'Patients', icon: '👥'},
-  {key: 'Trials', label: 'Trials', icon: '⚗'},
-  {key: 'Matches', label: 'Matches', icon: '◎'},
-] as const;
+import {
+  AiIcon,
+  AiIntelligenceIcon,
+  ChevronDownIcon,
+  ChevronRightIcon,
+  CirclesIcon,
+  DashboardIcon,
+  PatientsIcon,
+  TrialsIcon,
+} from '../../assets/icons';
+import GradientBackground from '../common/GradientBackground';
+import { SvgProps } from 'react-native-svg';
+import { GlobalStyles } from '../../styles/GlobalStyles';
+
+type NavItem = {
+  key: 'Dashboard' | 'Patients' | 'Trials' | 'Matches';
+  label: string;
+  Icon: React.FC<SvgProps>;
+};
+
+const NAV_ITEMS: NavItem[] = [
+  {key: 'Dashboard', label: 'Dashboard', Icon: DashboardIcon},
+  {key: 'Patients', label: 'Patients', Icon: PatientsIcon},
+  {key: 'Trials', label: 'Trials', Icon: TrialsIcon},
+  {key: 'Matches', label: 'Matches', Icon: CirclesIcon},
+];
 
 function CustomDrawer(props: DrawerContentComponentProps): JSX.Element {
   const {navigation, state} = props;
@@ -25,9 +45,9 @@ function CustomDrawer(props: DrawerContentComponentProps): JSX.Element {
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.logoRow}>
-          <View style={styles.logoBox}>
-            <Text style={styles.logoIcon}>◎</Text>
-          </View>
+          <GradientBackground style={styles.logoBox} width={44} height={44}>
+            <CirclesIcon width={22} height={22} stroke={Colors.white} />
+          </GradientBackground>
           <Text style={styles.logoText}>TrialMatch</Text>
         </View>
         <TouchableOpacity onPress={() => navigation.closeDrawer()} style={styles.closeButton}>
@@ -39,7 +59,7 @@ function CustomDrawer(props: DrawerContentComponentProps): JSX.Element {
 
       {/* AI Banner */}
       <View style={styles.aiBanner}>
-        <Text style={styles.aiBannerIcon}>🧠</Text>
+        <AiIntelligenceIcon width={20} height={20} stroke={Colors.secondary} />
         <View>
           <Text style={styles.aiBannerLabel}>Eligibility Intelligence</Text>
           <Text style={styles.aiBannerTitle}>AI-Powered Matching</Text>
@@ -58,9 +78,11 @@ function CustomDrawer(props: DrawerContentComponentProps): JSX.Element {
               style={[styles.navItem, isActive && styles.navItemActive]}
               onPress={() => navigation.navigate(item.key)}
               activeOpacity={0.75}>
-              <Text style={[styles.navIcon, isActive && styles.navIconActive]}>
-                {item.icon}
-              </Text>
+              <item.Icon
+                width={22}
+                height={22}
+                stroke={isActive ? Colors.secondary : Colors.textBody}
+              />
               <Text style={[styles.navLabel, isActive && styles.navLabelActive]}>
                 {item.label}
               </Text>
@@ -74,10 +96,12 @@ function CustomDrawer(props: DrawerContentComponentProps): JSX.Element {
         <View style={styles.divider} />
 
         {/* TrialMatch AI CTA */}
-        <TouchableOpacity style={styles.aiButton} activeOpacity={0.85}>
-          <Text style={styles.aiButtonIcon}>✦</Text>
-          <Text style={styles.aiButtonText}>TrialMatch AI</Text>
-          <Text style={styles.aiButtonArrow}>›</Text>
+        <TouchableOpacity style={{...GlobalStyles.button, paddingHorizontal: 12}} activeOpacity={0.85}>
+          <GradientBackground style={{...GlobalStyles.buttonGradient, paddingHorizontal: 16, borderRadius: 12}}>
+            <AiIcon width={20} height={20} stroke={Colors.white} style={{marginRight: 8}} />
+            <Text style={styles.aiButtonText}>TrialMatch AI</Text>
+            <ChevronRightIcon width={20} height={20} stroke={Colors.white}/>
+          </GradientBackground>
         </TouchableOpacity>
 
         <View style={styles.divider} />
@@ -91,184 +115,12 @@ function CustomDrawer(props: DrawerContentComponentProps): JSX.Element {
             <Text style={styles.userName}>Nandini Kalidindi</Text>
             <Text style={styles.userEmail}>nandhini206@outlook.com</Text>
           </View>
-          <Text style={styles.userChevron}>⌄</Text>
+          <ChevronDownIcon width={16} height={16} stroke={Colors.textBody}/>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.drawerBackground,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-  },
-  logoRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-  },
-  logoBox: {
-    width: 44,
-    height: 44,
-    borderRadius: 12,
-    backgroundColor: Colors.primary,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  logoIcon: {
-    fontSize: 22,
-    color: Colors.white,
-  },
-  logoText: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: Colors.white,
-  },
-  closeButton: {
-    width: 36,
-    height: 36,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  closeIcon: {
-    fontSize: 18,
-    color: Colors.textMuted,
-  },
-  divider: {
-    height: StyleSheet.hairlineWidth,
-    backgroundColor: Colors.drawerSurface,
-    marginHorizontal: 0,
-  },
-  aiBanner: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-    margin: 16,
-    padding: 14,
-    backgroundColor: Colors.darkCard,
-    borderRadius: 12,
-  },
-  aiBannerIcon: {
-    fontSize: 24,
-  },
-  aiBannerLabel: {
-    fontSize: 11,
-    color: Colors.textBody,
-    marginBottom: 2,
-  },
-  aiBannerTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: Colors.white,
-  },
-  navSection: {
-    paddingHorizontal: 12,
-    paddingTop: 8,
-    flex: 1,
-  },
-  navItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 14,
-    paddingVertical: 13,
-    paddingHorizontal: 14,
-    borderRadius: 10,
-    marginBottom: 2,
-  },
-  navItemActive: {
-    backgroundColor: Colors.drawerSurface,
-  },
-  navIcon: {
-    fontSize: 20,
-    color: Colors.textBody,
-    width: 24,
-    textAlign: 'center',
-  },
-  navIconActive: {
-    color: Colors.secondary,
-  },
-  navLabel: {
-    fontSize: 16,
-    color: Colors.textMuted,
-    fontWeight: '500',
-  },
-  navLabelActive: {
-    color: Colors.secondary,
-    fontWeight: '600',
-  },
-  bottom: {
-    paddingBottom: 8,
-  },
-  aiButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    margin: 16,
-    paddingVertical: 14,
-    paddingHorizontal: 18,
-    borderRadius: 12,
-    backgroundColor: Colors.primary,
-  },
-  aiButtonIcon: {
-    fontSize: 18,
-    color: Colors.white,
-    marginRight: 10,
-  },
-  aiButtonText: {
-    flex: 1,
-    fontSize: 15,
-    fontWeight: '700',
-    color: Colors.white,
-  },
-  aiButtonArrow: {
-    fontSize: 22,
-    color: Colors.white,
-    fontWeight: '300',
-  },
-  userRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    gap: 12,
-  },
-  avatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: Colors.secondary,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  avatarInitial: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: Colors.drawerBackground,
-  },
-  userInfo: {
-    flex: 1,
-  },
-  userName: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: Colors.white,
-  },
-  userEmail: {
-    fontSize: 12,
-    color: Colors.textBody,
-    marginTop: 1,
-  },
-  userChevron: {
-    fontSize: 16,
-    color: Colors.textBody,
-  },
-});
 
 export default CustomDrawer;

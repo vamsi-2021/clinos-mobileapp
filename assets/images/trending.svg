@@ -1,10 +1,1 @@
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_10_20)">
-<path d="M24 3.99609V12H21.9961V7.41797L12.9961 16.418L9 12.4102L1.20703 20.2031L-0.210938 18.7969L9 9.58594L12.9961 13.582L20.5898 6H15.9961V3.99609H24Z" fill="#40EA54"/>
-</g>
-<defs>
-<clipPath id="clip0_10_20">
-<rect width="24" height="24" fill="white"/>
-</clipPath>
-</defs>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up w-4 h-4 text-status-success"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>

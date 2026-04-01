@@ -2,52 +2,35 @@ import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
-  StyleSheet,
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
   Pressable,
-  Dimensions,
 } from 'react-native';
 import {DrawerNavigationProp} from '@react-navigation/drawer';
 import {DrawerParamList} from '../../types/navigation';
 import {Colors} from '../../constants/theme';
+import {styles, BAR_AREA_WIDTH, CHART_LABEL_WIDTH, MAX_CHART_VALUE, CHART_X_VALUES, BAR_ROW_HEIGHT} from './DashboardScreen.styles';
 import {api} from '../../utils/api';
+
+import {
+  MenuIcon,
+  NotifyIcon,
+  PatientsIcon,
+  TrialsIcon,
+  TrendingIcon,
+  InfoIcon,
+  CalenderIcon,
+  CirclesIcon,
+  CheckCircleIcon,
+  RecentIcon,
+  RightArrowIcon,
+} from '../../assets/icons';
 
 type DashboardScreenProps = {
   navigation: DrawerNavigationProp<DrawerParamList, 'Dashboard'>;
 };
 
-const {width: SCREEN_WIDTH} = Dimensions.get('window');
-
-// ── Dashboard color palette ──────────────────────────────────────────────────
-const DC = {
-  // Status
-  eligible:        '#2BAE66',
-  eligibleBg:      '#D1FAE5',
-  eligibleScore:   '#1FAD7D',
-  likelyEligible:  '#127DA1',
-  likelyBg:        '#EBF5F8',
-  potential:       '#F8A007',
-  potentialBg:     '#FEF3C7',
-  potentialScore:  '#D97706',
-  potentialBorder: '#FDE68A',
-  needsReview:     '#E5484D',
-  // Neutral
-  iconBg:          '#EBF5F8',
-  actionNeutralBg: '#F1F5F9',
-  actionNeutralIcon:'#64748B',
-  actionNeutralBorder:'#E2E8F0',
-  eligibleBorder:  '#A7F3D0',
-  // Chart
-  barTargetBg:     '#E2E8F0',
-  gridLine:        '#CBD5E1',
-  axisLine:        '#94A3B8',
-  barSelected:     '#CCCCCC',
-  // Common
-  white:           '#fff',
-  shadow:          '#000',
-};
 
 // ── Stat cards ──────────────────────────────────────────────────────────────
 const STAT_CARDS = [
@@ -57,9 +40,9 @@ const STAT_CARDS = [
     trend: '+12%',
     trendLabel: 'vs last month',
     trendUp: true,
-    iconBg: DC.iconBg,
+    iconBg: Colors.primaryLight,
     iconColor: Colors.primary,
-    icon: '👥',
+    Icon: PatientsIcon,
   },
   {
     label: 'Active Trials',
@@ -67,9 +50,9 @@ const STAT_CARDS = [
     trend: '0%',
     trendLabel: 'vs last month',
     trendUp: null,
-    iconBg: DC.iconBg,
+    iconBg: Colors.primaryLight,
     iconColor: Colors.primary,
-    icon: '⚗',
+    Icon: TrialsIcon,
   },
   {
     label: 'Eligible Matches',
@@ -78,9 +61,9 @@ const STAT_CARDS = [
     trendLabel: 'vs last month',
     trendUp: true,
     subLabel: '+1 likely eligible',
-    iconBg: DC.iconBg,
+    iconBg: Colors.primaryLight,
     iconColor: Colors.primary,
-    icon: '✓',
+    Icon: CheckCircleIcon,
   },
   {
     label: 'Avg Match Score',
@@ -88,9 +71,9 @@ const STAT_CARDS = [
     trend: '+5%',
     trendLabel: 'vs last month',
     trendUp: true,
-    iconBg: DC.iconBg,
+    iconBg: Colors.primaryLight,
     iconColor: Colors.primary,
-    icon: '◎',
+    Icon: CirclesIcon,
   },
 ];
 
@@ -98,10 +81,10 @@ const STAT_CARDS = [
 type DistributionItem = {label: string; count: number; color: string};
 
 const DISTRIBUTION_COLORS: Record<string, string> = {
-  eligible: DC.eligible,
-  likely_eligible: DC.likelyEligible,
-  potential: DC.potential,
-  needs_review: DC.needsReview,
+  eligible: Colors.eligible,
+  likely_eligible: Colors.primary,
+  potential: Colors.warning,
+  needs_review: Colors.statusIneligible,
 };
 
 const DEFAULT_DISTRIBUTION: DistributionItem[] = [
@@ -119,12 +102,6 @@ const TRIALS = [
   {id: 'MELANOMA-IO-101', enrolled: 30, target: 200},
   {id: 'BRCA-PANC-201', enrolled: 20, target: 150},
 ];
-const MAX_CHART_VALUE = 600;
-// content padding (16*2) + card padding (16*2) + label width (110) = 174
-const BAR_AREA_WIDTH = SCREEN_WIDTH - 174;
-// label width only — paddingRight is internal, bars start right at 110
-const CHART_LABEL_WIDTH = 110;
-const CHART_X_VALUES = [0, 150, 300, 450, 600];
 
 // ── Recent matches ───────────────────────────────────────────────────────────
 const RECENT_MATCHES = [
@@ -133,71 +110,74 @@ const RECENT_MATCHES = [
     name: 'Non-Small Cell Lung C...',
     trial: 'KRAS-LUNG-301',
     status: 'Likely Eligible',
-    statusColor: DC.likelyEligible,
-    statusBg: DC.likelyBg,
-    scoreBg: DC.likelyBg,
-    scoreColor: DC.likelyEligible,
+    statusColor: Colors.primary,
+    statusBg: Colors.primaryLight,
+    scoreBg: Colors.primaryLight,
+    scoreColor: Colors.primary,
   },
   {
     score: 95,
     name: 'Triple-Negative Breast Cancer',
     trial: 'BRCA-TNBC-201',
     status: 'Eligible',
-    statusColor: DC.white,
-    statusBg: DC.eligible,
-    scoreBg: DC.eligibleBg,
-    scoreColor: DC.eligibleScore,
+    statusColor: Colors.white,
+    statusBg: Colors.eligible,
+    scoreBg: Colors.statusEligibleLight,
+    scoreColor: Colors.success,
   },
   {
     score: 72,
     name: 'Metastatic Colorec...',
     trial: 'BRAF-CRC-301',
     status: 'Potentially Eligible',
-    statusColor: DC.white,
-    statusBg: DC.potential,
-    scoreBg: DC.potentialBg,
-    scoreColor: DC.potentialScore,
+    statusColor: Colors.white,
+    statusBg: Colors.warning,
+    scoreBg: Colors.statusPendingBg,
+    scoreColor: Colors.potentialScore,
   },
   {
     score: 98,
     name: 'Advanced Melanoma',
     trial: 'MELANOMA-IO-101',
     status: 'Eligible',
-    statusColor: DC.white,
-    statusBg: DC.eligible,
-    scoreBg: DC.eligibleBg,
-    scoreColor: DC.eligibleScore,
+    statusColor: Colors.white,
+    statusBg: Colors.eligible,
+    scoreBg: Colors.statusEligibleLight,
+    scoreColor: Colors.success,
   },
 ];
 
 // ── Action items ─────────────────────────────────────────────────────────────
 const ACTION_ITEMS = [
   {
-    icon: '✓',
-    iconBg: DC.eligibleBg,
-    iconColor: DC.eligibleScore,
-    borderColor: DC.eligibleBorder,
+    Icon: CheckCircleIcon,
+    iconBg: Colors.statusActiveBg,
+    iconColor: Colors.success,
+    borderColor: Colors.eligibleBorder,
     title: '3 Patients Ready for Referral',
     desc: 'High-confidence matches awaiting coordinator review',
     action: 'Review',
+    backgroundColor: Colors.statusActiveBgLight,
   },
   {
-    icon: '!',
-    iconBg: DC.potentialBg,
-    iconColor: DC.potentialScore,
-    borderColor: DC.potentialBorder,
+    Icon: InfoIcon,
+    iconBg: Colors.statusPendingBg,
+    iconColor: Colors.potentialScore,
+    borderColor: Colors.potentialBorder,
     title: '1 Match Needs Verification',
     desc: 'Conflicting biomarker data requires clinical review',
     action: 'Verify',
+    backgroundColor: Colors.statusPendingBgLight,
   },
   {
-    icon: '⏰',
-    iconBg: DC.actionNeutralBg,
-    iconColor: DC.actionNeutralIcon,
-    borderColor: DC.actionNeutralBorder,
+    Icon: RecentIcon,
+    iconBg: Colors.statusNeutralBg,
+    iconColor: Colors.textBody,
+    borderColor: Colors.inputBorder,
     title: '2 Trials Updated Eligibility',
     desc: 'Re-run matching for affected patients',
     action: 'Update',
+    backgroundColor: Colors.statusNeutralBgLight,
   },
 ];
 
@@ -326,7 +306,7 @@ const DashedLine = ({height}: {height: number}) => {
       {Array.from({length: count}, (_, i) => (
         <View
           key={i}
-          style={{width: 1, height: dashH, backgroundColor: DC.gridLine, marginBottom: gapH}}
+          style={{width: 1, height: dashH, backgroundColor: Colors.roleCardBorder, marginBottom: gapH}}
         />
       ))}
     </View>
@@ -334,7 +314,6 @@ const DashedLine = ({height}: {height: number}) => {
 };
 
 // ── Enrollment bar ────────────────────────────────────────────────────────────
-const BAR_ROW_HEIGHT = 36; // barStack(24) + marginBottom(12)
 
 const EnrollmentBar = ({
   trial,
@@ -356,7 +335,7 @@ const EnrollmentBar = ({
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={() => onPress(index * BAR_ROW_HEIGHT)}
-        style={[styles.barStack, isActive && {backgroundColor: DC.barSelected, borderRadius: 4}]}>
+        style={[styles.barStack, isActive && {backgroundColor: Colors.barSelected, borderRadius: 4}]}>
         {/* Enrolled bar (teal) — top */}
         <View style={[styles.barEnrolled, {width: enrolledW}]} />
         {/* Target bar (grey) — bottom */}
@@ -371,6 +350,7 @@ const DashboardScreen = ({navigation}: DashboardScreenProps) => {
   const [distribution, setDistribution] = useState<DistributionItem[]>(DEFAULT_DISTRIBUTION);
   const [enrollChartHeight, setEnrollChartHeight] = useState(0);
   const [activeTrial, setActiveTrial] = useState<{trial: (typeof TRIALS)[0]; y: number} | null>(null);
+  const [hasNewNotifications, setHasNewNotifications] = useState<Boolean>(false);
 
   useEffect(() => {
     api
@@ -395,27 +375,27 @@ const DashboardScreen = ({navigation}: DashboardScreenProps) => {
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.openDrawer()} style={styles.menuButton}>
-          <Text style={styles.menuIcon}>☰</Text>
+          <MenuIcon width={24} height={24} stroke={Colors.textMuted} />
         </TouchableOpacity>
-        <View style={styles.headerCenter}>
+        <TouchableOpacity style={styles.notifButton}>
+          <NotifyIcon width={24} height={24} stroke={Colors.textHeading} />
+          {hasNewNotifications && <View style={styles.notifBadge} />}
+        </TouchableOpacity>
+      </View>
+
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+         <View style={styles.headerCenter}>
           <Text style={styles.headerTitle}>TrialMatch Dashboard</Text>
           <Text style={styles.headerSub}>
             AI-powered patient-to-trial matching with explainable results
           </Text>
         </View>
-        <TouchableOpacity style={styles.notifButton}>
-          <Text style={styles.notifIcon}>🔔</Text>
-          <View style={styles.notifBadge} />
-        </TouchableOpacity>
-      </View>
-
-      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <Pressable onPress={() => setActiveTrial(null)}>
         {/* Take a Tour */}
-        <TouchableOpacity style={styles.tourButton} activeOpacity={0.8}>
+        {/* <TouchableOpacity style={styles.tourButton} activeOpacity={0.8}>
           <Text style={styles.tourIcon}>?</Text>
           <Text style={styles.tourText}>Take a Tour</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         {/* Stat Cards */}
         {STAT_CARDS.map(card => (
@@ -425,7 +405,7 @@ const DashboardScreen = ({navigation}: DashboardScreenProps) => {
               <Text style={styles.statCardValue}>{card.value}</Text>
               {card.subLabel && <Text style={styles.statSubLabel}>{card.subLabel}</Text>}
               <View style={styles.statTrendRow}>
-                {card.trendUp === true && <Text style={styles.trendArrow}>↗</Text>}
+                {card.trendUp === true && <TrendingIcon width={16} height={16} stroke={Colors.success} />}
                 {card.trendUp === null && <Text style={styles.trendFlat}>—</Text>}
                 <Text
                   style={[
@@ -442,7 +422,7 @@ const DashboardScreen = ({navigation}: DashboardScreenProps) => {
               </View>
             </View>
             <View style={[styles.statIconBox, {backgroundColor: card.iconBg}]}>
-              <Text style={[styles.statIcon, {color: card.iconColor}]}>{card.icon}</Text>
+              <card.Icon width={24} height={24} stroke={card.iconColor} />
             </View>
           </View>
         ))}
@@ -461,13 +441,13 @@ const DashboardScreen = ({navigation}: DashboardScreenProps) => {
             <DonutSegments size={120} stroke={20} distribution={distribution} />
             <View style={{flex: 1, alignItems: 'flex-end'}}>
               <Text style={[styles.distLabel, {color: distribution[3].color}]}>
-                {distribution[3].label}
+                {distribution[3].label}: {distribution[3].count}
+              </Text>
+              <Text style={[styles.distLabel, {color: distribution[2].color, textAlign: 'right', marginRight: 32, marginTop: 24}]}>
+                {distribution[2].label}: {distribution[2].count}
               </Text>
             </View>
           </View>
-          <Text style={[styles.distLabel, {color: distribution[2].color, textAlign: 'right', marginRight: 32}]}>
-            {distribution[2].label}: {distribution[2].count}
-          </Text>
 
           {/* Legend */}
           <View style={styles.legendRow}>
@@ -485,7 +465,8 @@ const DashboardScreen = ({navigation}: DashboardScreenProps) => {
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Trial Enrollment Progress</Text>
             <TouchableOpacity style={styles.viewAllBtn}>
-              <Text style={styles.viewAllText}>View All →</Text>
+              <Text style={styles.viewAllText}>View All</Text>
+              <RightArrowIcon width={12} height={12} stroke={Colors.textMuted} style={{marginLeft: 4}} />
             </TouchableOpacity>
           </View>
           <View
@@ -501,7 +482,7 @@ const DashboardScreen = ({navigation}: DashboardScreenProps) => {
                 bottom: 0,
                 borderLeftWidth: 2,
                 borderBottomWidth: 2,
-                borderColor: DC.axisLine,
+                borderColor: Colors.textMuted,
               }}
               pointerEvents="none"
             />
@@ -571,7 +552,8 @@ const DashboardScreen = ({navigation}: DashboardScreenProps) => {
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Recent Matches</Text>
             <TouchableOpacity style={styles.viewAllBtn}>
-              <Text style={styles.viewAllText}>View All →</Text>
+              <Text style={styles.viewAllText}>View All</Text>
+              <RightArrowIcon width={12} height={12} stroke={Colors.textMuted} style={{marginLeft: 4}} />
             </TouchableOpacity>
           </View>
           {RECENT_MATCHES.map((match, i) => (
@@ -596,9 +578,9 @@ const DashboardScreen = ({navigation}: DashboardScreenProps) => {
           {ACTION_ITEMS.map((item, i) => (
             <View
               key={i}
-              style={[styles.actionRow, {borderColor: item.borderColor, borderWidth: 1}]}>
+              style={[styles.actionRow, {borderColor: item.borderColor, borderWidth: 1, backgroundColor: item.backgroundColor}]}>
               <View style={[styles.actionIconBox, {backgroundColor: item.iconBg}]}>
-                <Text style={[styles.actionIcon, {color: item.iconColor}]}>{item.icon}</Text>
+                <item.Icon width={16} height={16} stroke={item.iconColor} />
               </View>
               <View style={styles.actionContent}>
                 <Text style={styles.actionTitle}>{item.title}</Text>
@@ -616,392 +598,5 @@ const DashboardScreen = ({navigation}: DashboardScreenProps) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.backgroundPage,
-  },
-  // ── Header ────────────────────────────────────────────────────
-  header: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    backgroundColor: Colors.white,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: Colors.inputBorder,
-  },
-  menuButton: {
-    width: 36,
-    height: 36,
-    justifyContent: 'center',
-    marginTop: 2,
-  },
-  menuIcon: {
-    fontSize: 22,
-    color: Colors.textHeading,
-  },
-  headerCenter: {
-    flex: 1,
-    paddingHorizontal: 8,
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: Colors.textHeading,
-  },
-  headerSub: {
-    fontSize: 12,
-    color: Colors.textBody,
-    lineHeight: 17,
-    marginTop: 2,
-  },
-  notifButton: {
-    position: 'relative',
-    width: 36,
-    height: 36,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 2,
-  },
-  notifIcon: {
-    fontSize: 22,
-  },
-  notifBadge: {
-    position: 'absolute',
-    top: 4,
-    right: 4,
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: Colors.notificationBadge,
-  },
-  // ── Content ───────────────────────────────────────────────────
-  content: {
-    padding: 16,
-    paddingBottom: 40,
-  },
-  // ── Tour button ───────────────────────────────────────────────
-  tourButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignSelf: 'flex-start',
-    borderWidth: 1.5,
-    borderColor: Colors.inputBorder,
-    borderRadius: 20,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    backgroundColor: Colors.white,
-    marginBottom: 16,
-    gap: 8,
-  },
-  tourIcon: {
-    fontSize: 16,
-    color: Colors.textBody,
-    fontWeight: '700',
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    borderWidth: 1.5,
-    borderColor: Colors.textBody,
-    textAlign: 'center',
-    lineHeight: 18,
-  },
-  tourText: {
-    fontSize: 14,
-    color: Colors.textHeading,
-    fontWeight: '500',
-  },
-  // ── Stat cards ────────────────────────────────────────────────
-  statCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: Colors.white,
-    borderRadius: 14,
-    padding: 16,
-    marginBottom: 12,
-    shadowColor: DC.shadow,
-    shadowOpacity: 0.04,
-    shadowRadius: 6,
-    shadowOffset: {width: 0, height: 2},
-    elevation: 1,
-  },
-  statCardLeft: {
-    flex: 1,
-  },
-  statCardLabel: {
-    fontSize: 13,
-    color: Colors.textBody,
-    marginBottom: 4,
-  },
-  statCardValue: {
-    fontSize: 36,
-    fontWeight: '700',
-    color: Colors.textHeading,
-    lineHeight: 42,
-  },
-  statSubLabel: {
-    fontSize: 12,
-    color: Colors.textBody,
-    marginTop: 2,
-  },
-  statTrendRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 4,
-  },
-  trendArrow: {
-    fontSize: 14,
-    color: Colors.success,
-    marginRight: 2,
-  },
-  trendFlat: {
-    fontSize: 14,
-    color: Colors.textBody,
-    marginRight: 4,
-  },
-  trendText: {
-    fontSize: 13,
-    fontWeight: '600',
-  },
-  trendUp: {
-    color: Colors.success,
-  },
-  trendDown: {
-    color: Colors.danger,
-  },
-  trendNeutral: {
-    color: Colors.textBody,
-  },
-  trendLabel: {
-    fontSize: 12,
-    color: Colors.textMuted,
-  },
-  statIconBox: {
-    width: 52,
-    height: 52,
-    borderRadius: 14,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  statIcon: {
-    fontSize: 24,
-  },
-  // ── Card wrapper ──────────────────────────────────────────────
-  card: {
-    backgroundColor: Colors.white,
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 12,
-    shadowColor: DC.shadow,
-    shadowOpacity: 0.04,
-    shadowRadius: 6,
-    shadowOffset: {width: 0, height: 2},
-    elevation: 1,
-  },
-  sectionHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 12,
-  },
-  sectionTitle: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: Colors.textHeading,
-    marginBottom: 12,
-  },
-  viewAllBtn: {},
-  viewAllText: {
-    fontSize: 13,
-    color: Colors.textBody,
-    fontWeight: '500',
-  },
-  // ── Donut distribution ────────────────────────────────────────
-  distLabel: {
-    fontSize: 12,
-    fontWeight: '600',
-  },
-  distChartArea: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 8,
-  },
-  legendRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    gap: 10,
-    marginTop: 12,
-  },
-  legendItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-  },
-  legendDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-  },
-  legendText: {
-    fontSize: 11,
-    color: Colors.textBody,
-  },
-  // ── Enrollment bars ───────────────────────────────────────────
-  barRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  barLabel: {
-    width: 110,
-    fontSize: 10,
-    color: Colors.textBody,
-    textAlign: 'right',
-    paddingRight: 8,
-  },
-  barStack: {
-    flex: 1,
-    gap: 4,
-    paddingLeft: 2,
-  },
-  barTarget: {
-    height: 10,
-    backgroundColor: DC.barTargetBg,
-    borderTopRightRadius: 2,
-    borderBottomRightRadius: 2,
-  },
-  barEnrolled: {
-    height: 10,
-    backgroundColor: Colors.primary,
-    borderTopRightRadius: 2,
-    borderBottomRightRadius: 2,
-  },
-  tooltip: {
-    position: 'absolute',
-    backgroundColor: '#FFFFFF',
-    borderRadius: 8,
-    padding: 8,
-    shadowColor: DC.shadow,
-    shadowOpacity: 0.12,
-    shadowRadius: 6,
-    shadowOffset: {width: 0, height: 3},
-    elevation: 8,
-    zIndex: 99,
-    minWidth: 130,
-  },
-  tooltipTitle: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: Colors.textHeading,
-    marginBottom: 3,
-  },
-  tooltipEnrolled: {
-    fontSize: 15,
-    fontWeight: '700',
-    color: Colors.primary,
-    marginBottom: 1,
-  },
-  tooltipTarget: {
-    fontSize: 13,
-    fontWeight: '400',
-    color: Colors.textMuted,
-    opacity: 0.5,
-  },
-  xAxis: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingLeft: 110,
-    marginTop: 4,
-  },
-  xAxisLabel: {
-    fontSize: 9,
-    color: Colors.textMuted,
-  },
-  // ── Recent matches ────────────────────────────────────────────
-  matchRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 10,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: Colors.inputBorder,
-    gap: 10,
-  },
-  scoreBox: {
-    width: 52,
-    height: 52,
-    borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  scoreText: {
-    fontSize: 14,
-    fontWeight: '700',
-  },
-  matchInfo: {
-    flex: 1,
-  },
-  matchName: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: Colors.textHeading,
-    marginBottom: 2,
-  },
-  matchTrial: {
-    fontSize: 12,
-    color: Colors.textMuted,
-  },
-  statusBadge: {
-    borderRadius: 20,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-  },
-  statusText: {
-    fontSize: 11,
-    fontWeight: '600',
-  },
-  // ── Action items ──────────────────────────────────────────────
-  actionRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderRadius: 12,
-    padding: 12,
-    marginBottom: 10,
-    gap: 12,
-    backgroundColor: Colors.white,
-  },
-  actionIconBox: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  actionIcon: {
-    fontSize: 18,
-    fontWeight: '700',
-  },
-  actionContent: {
-    flex: 1,
-  },
-  actionTitle: {
-    fontSize: 13,
-    fontWeight: '700',
-    color: Colors.textHeading,
-    marginBottom: 2,
-  },
-  actionDesc: {
-    fontSize: 11,
-    color: Colors.textMuted,
-    lineHeight: 16,
-  },
-  actionBtn: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: Colors.textHeading,
-  },
-});
 
 export default DashboardScreen;

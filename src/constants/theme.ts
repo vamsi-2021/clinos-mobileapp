@@ -18,7 +18,7 @@ export const Colors = {
   textTertiary: '#C7C7CC',
   textHeading: '#1A2332',
   textBody: '#64748B',
-  textMuted: '#94A3B8',
+  textMuted: '#94a3b8',
 
   // Borders & separators
   border: '#E5E5EA',
@@ -35,15 +35,33 @@ export const Colors = {
   statIconBox: '#253548',
 
   // Eligibility status
+  eligible: '#2BAE66',
+  eligibleBorder: '#A7F3D0',
   statusEligible: '#1FAD7D',
   statusEligibleLight: '#D1FAE5',
   statusIneligible: '#E5484D',
   statusIneligibleLight: '#FDECEA',
   statusLikelyEligible: '#127DA1',
   statusLikelyEligibleLight: '#EBF5F8',
+  potentialScore: '#D97706',
+  potentialBorder: '#FDE68A',
+
+  // Neutral UI
+  barSelected: '#CCCCCC',
 
   // Card states
   cardBorderSelected: '#B8D9E6',
+
+  // Patient status badges
+  statusActiveBg: '#D1FAE5',
+  statusActiveBgLight: 'rgba(209, 250, 229, 0.3)',
+  statusPendingBg: '#FEF3C7',
+  statusPendingBgLight: 'rgba(254, 243, 199, 0.3)',
+  statusNeutralBg: '#F1F5F9',
+  statusNeutralBgLight: 'rgba(238, 243, 247, 0.3)',
+
+  // Drawer nav
+  navItemActiveBg: '#1E2D3D',
 
   // Status & score indicators
   scoreHigh: '#22C55E',
