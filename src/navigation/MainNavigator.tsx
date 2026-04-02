@@ -15,8 +15,8 @@ function MainNavigator(): JSX.Element {
       drawerContent={props => <CustomDrawer {...props} />}
       screenOptions={{
         headerShown: false,
-        drawerType: 'slide',
-        drawerStyle: {width: '78%'},
+        drawerType: 'front',
+        drawerStyle: {width: '75%'},
         overlayColor: 'rgba(0,0,0,0.55)',
       }}>
       <Drawer.Screen name="Dashboard" component={DashboardScreen} />
