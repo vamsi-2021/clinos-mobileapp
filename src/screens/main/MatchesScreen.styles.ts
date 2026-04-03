@@ -3,23 +3,12 @@ import {Colors} from '../../constants/theme';
 
 export const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: Colors.backgroundPage},
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 14,
-    backgroundColor: Colors.white,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: Colors.inputBorder,
-  },
-  menuButton: {width: 36, height: 36, justifyContent: 'center'},
-  menuIcon: {fontSize: 22, color: Colors.textHeading},
   headerTitle: {
-    flex: 1,
     fontSize: 18,
     fontWeight: '700',
     color: Colors.textHeading,
     marginLeft: 12,
+    backgroundColor: 'red',
   },
   list: {padding: 16, gap: 10},
   card: {

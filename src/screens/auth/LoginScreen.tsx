@@ -18,6 +18,7 @@ import {styles} from './LoginScreen.styles';
 import {GlobalStyles} from '../../styles/GlobalStyles';
 import GradientBackground from '../../components/common/GradientBackground';
 import {MailIcon, PasswordIcon, EyeIcon, TrialsIcon} from '../../assets/icons';
+import GradientIconButton from '../../components/common/GradientIconButton';
 
 type LoginScreenProps = {
   navigation: NativeStackNavigationProp<AuthStackParamList, 'Login'>;
@@ -50,9 +51,7 @@ const LoginScreen = ({navigation}: LoginScreenProps) => {
 
         {/* Logo */}
         <View style={styles.logoRow}>
-          <GradientBackground style={GlobalStyles.logoBox} width={44} height={44}>
-            <TrialsIcon width={24} height={24} stroke={Colors.white}/>
-          </GradientBackground>
+          <GradientIconButton icon={<TrialsIcon />} />
           <Text style={GlobalStyles.logoText}>TrialMatch</Text>
         </View>
 
@@ -112,7 +111,7 @@ const LoginScreen = ({navigation}: LoginScreenProps) => {
         {/* Sign Up Link */}
         <TouchableOpacity
           style={GlobalStyles.linkButton}
-          onPress={() => navigation.navigate('Register')}>
+          onPress={() => navigation.replace('Register')}>
           <Text style={GlobalStyles.linkText}>
             Don't have an account?{' '}
             <Text style={GlobalStyles.linkHighlight}>Sign up</Text>

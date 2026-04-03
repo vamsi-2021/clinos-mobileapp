@@ -3,19 +3,20 @@ import {
   View,
   Text,
   TouchableOpacity,
-  SafeAreaView,
 } from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {DrawerContentComponentProps} from '@react-navigation/drawer';
 import {Colors} from '../../constants/theme';
 import {styles} from './CustomDrawer.styles';
-
 import {
   AiIcon,
   AiIntelligenceIcon,
+  ButtonGradientBGIcon,
   ChevronDownIcon,
   ChevronRightIcon,
   CirclesIcon,
   DashboardIcon,
+  IconGradientBGIcon,
   LogoutIcon,
   PatientsIcon,
   TrialsIcon,
@@ -24,6 +25,7 @@ import GradientBackground from '../common/GradientBackground';
 import { SvgProps } from 'react-native-svg';
 import { GlobalStyles } from '../../styles/GlobalStyles';
 import { useAuth } from '../../context/AuthContext';
+import GradientIconButton from '../common/GradientIconButton';
 
 type NavItem = {
   key: 'Dashboard' | 'Patients' | 'Trials' | 'Matches';
@@ -43,15 +45,14 @@ function CustomDrawer(props: DrawerContentComponentProps): JSX.Element {
   const activeRoute = state.routes[state.index].name;
   const {logout} = useAuth();
   const [accountMenuOpen, setAccountMenuOpen] = useState(false);
+  const insets = useSafeAreaInsets();
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={[styles.container, {paddingTop: insets.top, paddingBottom: insets.bottom}]}>
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.logoRow}>
-          <GradientBackground style={styles.logoBox} width={44} height={44}>
-            <CirclesIcon width={22} height={22} stroke={Colors.white} />
-          </GradientBackground>
+          <GradientIconButton icon={<CirclesIcon />} />
           <Text style={styles.logoText}>TrialMatch</Text>
         </View>
         <TouchableOpacity onPress={() => navigation.closeDrawer()} style={styles.closeButton}>
@@ -101,11 +102,14 @@ function CustomDrawer(props: DrawerContentComponentProps): JSX.Element {
 
         {/* TrialMatch AI CTA */}
         <TouchableOpacity style={{...GlobalStyles.button, paddingHorizontal: 12}} activeOpacity={0.85}>
-          <GradientBackground style={{...GlobalStyles.buttonGradient, paddingHorizontal: 16, borderRadius: 12}}>
-            <AiIcon width={20} height={20} stroke={Colors.white} style={{marginRight: 8}} />
-            <Text style={styles.aiButtonText}>TrialMatch AI</Text>
-            <ChevronRightIcon width={20} height={20} stroke={Colors.white}/>
-          </GradientBackground>
+          <View style={{ ...GlobalStyles.buttonGradient, width: '100%', borderRadius: 10, overflow: 'hidden' }}>
+            <ButtonGradientBGIcon width='120%' height='120%' style={{ position: 'absolute', }} />
+            <View style={{ ...GlobalStyles.buttonGradient, paddingHorizontal: 12, gap: 8}}>
+              <AiIcon width={20} height={20} stroke={Colors.white} style={{ marginRight: 8 }} />
+              <Text style={styles.aiButtonText}>TrialMatch AI</Text>
+              <ChevronRightIcon width={20} height={20} stroke={Colors.white} style={{ marginRight: -4 }} />
+            </View>
+          </View>
         </TouchableOpacity>
 
         <View style={styles.divider} />
@@ -146,7 +150,7 @@ function CustomDrawer(props: DrawerContentComponentProps): JSX.Element {
           </TouchableOpacity>
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 

@@ -15,62 +15,6 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.backgroundPage,
   },
-  // ── Header ────────────────────────────────────────────────────
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    backgroundColor: Colors.white,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: Colors.inputBorder,
-  },
-  menuButton: {
-    width: 36,
-    height: 36,
-    justifyContent: 'center',
-    marginTop: 2,
-  },
-  menuIcon: {
-    fontSize: 22,
-    color: Colors.textHeading,
-  },
-  headerCenter: {
-    flex: 1,
-    padding: 8,
-    paddingBottom: 20,
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: Colors.textHeading,
-  },
-  headerSub: {
-    fontSize: 12,
-    color: Colors.textBody,
-    lineHeight: 17,
-    marginTop: 2,
-  },
-  notifButton: {
-    position: 'relative',
-    width: 36,
-    height: 36,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 2,
-  },
-  notifIcon: {
-    fontSize: 22,
-  },
-  notifBadge: {
-    position: 'absolute',
-    top: 4,
-    right: 4,
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: Colors.notificationBadge,
-  },
   // ── Content ───────────────────────────────────────────────────
   content: {
     padding: 12,

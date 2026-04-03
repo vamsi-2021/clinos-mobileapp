@@ -13,6 +13,7 @@ function MainNavigator(): JSX.Element {
   return (
     <Drawer.Navigator
       drawerContent={props => <CustomDrawer {...props} />}
+      detachInactiveScreens={false}
       screenOptions={{
         headerShown: false,
         drawerType: 'front',

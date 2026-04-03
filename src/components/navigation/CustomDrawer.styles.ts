@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 12,
-    backgroundColor: Colors.primary,
+    //backgroundColor: Colors.primary,
     justifyContent: 'center',
     alignItems: 'center',
   },

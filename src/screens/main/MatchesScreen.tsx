@@ -10,7 +10,8 @@ import {DrawerNavigationProp} from '@react-navigation/drawer';
 import {DrawerParamList} from '../../types/navigation';
 import {Colors} from '../../constants/theme';
 import {styles} from './MatchesScreen.styles';
-import {MenuIcon} from '../../assets/icons';
+import AppHeader from '../../components/common/AppHeader';
+import { GlobalStyles } from '../../styles/GlobalStyles';
 
 type MatchesScreenProps = {
   navigation: DrawerNavigationProp<DrawerParamList, 'Matches'>;
@@ -33,17 +34,19 @@ function getScoreColor(score: number): string {
 const MatchesScreen = ({navigation}: MatchesScreenProps) => {
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.openDrawer()} style={styles.menuButton}>
-          <MenuIcon width={24} height={24} stroke={Colors.textMuted} />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Matches</Text>
-      </View>
-
+      <AppHeader />
       <FlatList
         data={MOCK_MATCHES}
         keyExtractor={item => item.id}
         contentContainerStyle={styles.list}
+        ListHeaderComponent={
+          <View style={GlobalStyles.headerCenter}>
+            <Text style={GlobalStyles.headerTitle}>Match Results</Text>
+            <Text style={GlobalStyles.headerSub}>
+              Review patient-trial matches with AI-powered eligibility analysis
+            </Text>
+          </View>
+        }
         renderItem={({item}) => (
           <TouchableOpacity style={styles.card} activeOpacity={0.8}>
             <View style={[styles.scoreBadge, {backgroundColor: getScoreColor(item.score) + '20'}]}>

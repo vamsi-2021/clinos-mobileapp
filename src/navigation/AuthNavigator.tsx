@@ -10,7 +10,7 @@ function AuthNavigator(): JSX.Element {
   return (
     <Stack.Navigator
       initialRouteName="Login"
-      screenOptions={{headerShown: false}}>
+      screenOptions={{headerShown: false, animation: 'fade' }}>
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
     </Stack.Navigator>

@@ -16,8 +16,65 @@ export const GlobalStyles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '700',
     color: Colors.textHeading,
+    marginLeft: 12
   },
-
+  // ── Header ────────────────────────────────────────────────────
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 8,
+    paddingVertical: 12,
+    backgroundColor: Colors.white,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: Colors.inputBorder,
+  },
+  menuButton: {
+    width: 36,
+    height: 36,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 2,
+  },
+  menuIcon: {
+    fontSize: 22,
+    color: Colors.textHeading,
+  },
+  notifButton: {
+    position: 'relative',
+    width: 36,
+    height: 36,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 2,
+  },
+  notifIcon: {
+    fontSize: 22,
+  },
+  notifBadge: {
+    position: 'absolute',
+    top: 4,
+    right: 4,
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: Colors.notificationBadge,
+  },
+ headerCenter: {
+    flex: 1,
+    padding: 4,
+    paddingBottom: 20,
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: Colors.textHeading,
+  },
+  headerSub: {
+    fontSize: 12,
+    color: Colors.textBody,
+    lineHeight: 17,
+    marginTop: 2,
+  },
   // ── Form inputs ───────────────────────────────────────────────
   inputWrapper: {
     flexDirection: 'row',
@@ -44,7 +101,7 @@ export const GlobalStyles = StyleSheet.create({
 
   // ── Primary button ────────────────────────────────────────────
   button: {
-    height: 52,
+    height: 48,
     borderRadius: 12,
     marginTop: 4,
     marginBottom: 20,

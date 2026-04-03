@@ -17,6 +17,7 @@ import {styles} from './RegisterScreen.styles';
 import {GlobalStyles} from '../../styles/GlobalStyles';
 import GradientBackground from '../../components/common/GradientBackground';
 import {StethoscopeIcon, PersonIcon, MailIcon, PasswordIcon, EyeIcon, TrialsIcon, PlaceholderIcon} from '../../assets/icons';
+import GradientIconButton from '../../components/common/GradientIconButton';
 
 type Role = 'provider' | 'patient';
 
@@ -52,9 +53,7 @@ const RegisterScreen = ({navigation}: RegisterScreenProps) => {
 
         {/* Logo */}
         <View style={styles.logoRow}>
-          <GradientBackground style={GlobalStyles.logoBox} width={44} height={44}>
-            <TrialsIcon width={26} height={26} stroke={Colors.white} />
-          </GradientBackground>
+          <GradientIconButton icon={<TrialsIcon />} />
           <Text style={GlobalStyles.logoText}>TrialMatch</Text>
         </View>
 
@@ -164,7 +163,7 @@ const RegisterScreen = ({navigation}: RegisterScreenProps) => {
         {/* Sign In Link */}
         <TouchableOpacity
           style={GlobalStyles.linkButton}
-          onPress={() => navigation.goBack()}>
+          onPress={() => navigation.replace('Login')}>
           <Text style={GlobalStyles.linkText}>
             Already have an account?{' '}
             <Text style={GlobalStyles.linkHighlight}>Sign in</Text>

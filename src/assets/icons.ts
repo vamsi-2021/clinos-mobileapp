@@ -3,6 +3,7 @@ import {SvgProps} from 'react-native-svg';
 
 import AiSvg             from '../../assets/images/ai.svg';
 import AiIntelligenceSvg from '../../assets/images/ai_intelligence.svg';
+import ButtonGradientBG  from '../../assets/images/gradient_button_bg.svg';
 import CalenderSvg       from '../../assets/images/calender.svg';
 import ChevronRightSvg    from '../../assets/images/chevron_right.svg';
 import ChevronDownSvg     from '../../assets/images/chevron_down.svg';
@@ -15,6 +16,7 @@ import DataSvg           from '../../assets/images/data.svg';
 import DnaSvg            from '../../assets/images/dna.svg';
 import EyeSvg            from '../../assets/images/eye.svg';
 import FilterSvg         from '../../assets/images/filter.svg';
+import IconGradientBG    from '../../assets/images/gradient_icon_bg.svg';
 import InfoSvg           from '../../assets/images/info.svg';
 import LocationSvg       from '../../assets/images/location.svg';
 import LogoutSvg         from '../../assets/images/logout.svg';
@@ -45,6 +47,7 @@ function wrap(Svg: React.FC<SvgProps>): React.FC<SvgProps> {
 
 export const AiIcon             = wrap(AiSvg);
 export const AiIntelligenceIcon = wrap(AiIntelligenceSvg);
+export const ButtonGradientBGIcon = wrap(ButtonGradientBG);
 export const CalenderIcon       = wrap(CalenderSvg);
 export const ChevronDownIcon    = wrap(ChevronDownSvg);
 export const ChevronRightIcon   = wrap(ChevronRightSvg);
@@ -57,6 +60,7 @@ export const DataIcon           = wrap(DataSvg);
 export const DnaIcon            = wrap(DnaSvg);
 export const EyeIcon            = wrap(EyeSvg);
 export const FilterIcon         = wrap(FilterSvg);
+export const IconGradientBGIcon = wrap(IconGradientBG);
 export const InfoIcon           = wrap(InfoSvg);
 export const LocationIcon       = wrap(LocationSvg);
 export const LogoutIcon         = wrap(LogoutSvg);
