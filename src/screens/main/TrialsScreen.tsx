@@ -2,10 +2,10 @@ import React from 'react';
 import {
   View,
   Text,
-  SafeAreaView,
   FlatList,
   TouchableOpacity,
 } from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { DrawerParamList } from '../../types/navigation';
 import { styles } from './TrialsScreen.styles';

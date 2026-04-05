@@ -4,8 +4,8 @@ import {
   Text,
   FlatList,
   TouchableOpacity,
-  SafeAreaView,
 } from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import Card from '../../components/common/Card';
 import {styles} from './HomeScreen.styles';
 

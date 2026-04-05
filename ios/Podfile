@@ -14,6 +14,9 @@ if linkage != nil
   use_frameworks! :linkage => linkage.to_sym
 end
 
+pod 'RNWorklets', :path => '../node_modules/react-native-worklets'
+#pod 'NitroModules', :path => '../node_modules/react-native-nitro-modules'
+
 target 'clinosMobileapp' do
   config = use_native_modules!
 
@@ -23,31 +26,12 @@ target 'clinosMobileapp' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  target 'clinosMobileappTests' do
-    inherit! :complete
-    # Pods for testing
-  end
-
   post_install do |installer|
-    # https://github.com/facebook/react-native/blob/main/packages/react-native/scripts/react_native_pods.rb#L197-L202
     react_native_post_install(
       installer,
       config[:reactNativePath],
-      :mac_catalyst_enabled => false
+      :mac_catalyst_enabled => false,
+      # :ccache_enabled => true
     )
-
-    # Xcode 26 (Apple Clang 17) has a consteval regression that breaks fmt.
-    # fmt/base.h unconditionally redefines FMT_USE_CONSTEVAL (no #ifndef guard),
-    # so a preprocessor flag cannot override it. Patch the source directly to
-    # disable consteval for all Apple Clang versions.
-    fmt_base_h = "#{Pod::Config.instance.installation_root}/Pods/fmt/include/fmt/base.h"
-    if File.exist?(fmt_base_h)
-      content = File.read(fmt_base_h)
-      patched = content.gsub(
-        'defined(__apple_build_version__) && __apple_build_version__ < 14000029L',
-        'defined(__apple_build_version__)'
-      )
-      File.write(fmt_base_h, patched) if patched != content
-    end
   end
 end
