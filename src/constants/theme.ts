@@ -78,6 +78,15 @@ export const Colors = {
   // Basic
   white: '#FFFFFF',
   black: '#000000',
+
+  // Search bar
+  searchBackground: '#F9FAFB',
+  searchBorder: '#E0E6EB',
+
+  // Tags BG
+  negativeTagBg: '#F5F6F7',
+  negativeTagText: '#6C7C93',
+
 } as const;
 
 export const Spacing = {

@@ -37,8 +37,8 @@ const GradientIconButton: React.FC<GradientIconButtonProps> = ({
       {React.cloneElement(icon, {
         width: iconSize,
         height: iconSize,
-        stroke: icon.props.stroke ?? Colors.white,
-      })}
+        stroke: (icon.props as any).stroke ?? Colors.white,
+      } as any)}
     </View>
   );
 };

@@ -40,8 +40,9 @@ export const styles = StyleSheet.create({
   },
   avatarInitial: {fontSize: 20, fontWeight: '700', color: Colors.white},
   info: {flex: 1},
-  patientName: {fontSize: 15, fontWeight: '600', color: Colors.textHeading, marginBottom: 2},
-  condition: {fontSize: 13, color: Colors.textBody, marginBottom: 2},
+  patientName: {fontSize: 16, fontWeight: '600', color: Colors.textHeading},
+  patientTag: {fontSize: 12, fontWeight: '600', color: Colors.white, marginBottom: 2},
+  patientDescription: {fontSize: 14, color: Colors.textMuted, marginTop: 4, marginRight: 40},
   matches: {fontSize: 12, color: Colors.secondary, fontWeight: '600'},
   statusBadge: {
     paddingHorizontal: 10,
@@ -51,4 +52,27 @@ export const styles = StyleSheet.create({
   statusActive: {backgroundColor: Colors.statusActiveBg},
   statusPending: {backgroundColor: Colors.statusPendingBg},
   statusText: {fontSize: 12, fontWeight: '600', color: Colors.textHeading},
+  markerRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 7,
+    marginTop: 10,
+  },
+  badge: {
+    borderRadius: 20,
+    paddingHorizontal: 11,
+    paddingVertical: 4,
+  },
+  badgePos: {
+    backgroundColor: Colors.primaryLight,
+  },
+  badgeNeg: {
+    backgroundColor: Colors.negativeTagBg
+  },
+  badgeText: {
+    fontSize: 11.5,
+    fontWeight: '500',
+  },
+  badgeTextPos: { color: Colors.primary },
+  badgeTextNeg: { color: Colors.negativeTagText },
 });

@@ -62,7 +62,7 @@ export const GlobalStyles = StyleSheet.create({
  headerCenter: {
     flex: 1,
     padding: 4,
-    paddingBottom: 20,
+    paddingBottom: 10,
   },
   headerTitle: {
     fontSize: 18,
@@ -137,5 +137,47 @@ export const GlobalStyles = StyleSheet.create({
   linkHighlight: {
     color: Colors.primary,
     fontWeight: '600',
+  },
+
+  // ── Search ───────────────────────────────────────────────
+  searchBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Colors.searchBackground,
+    borderWidth: 1,
+    borderColor: Colors.searchBorder,
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    marginTop: 10,
+    height: 40,
+  },
+  searchIcon: {
+    marginRight: 10,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 15,
+    color: Colors.textHeading,
+  },
+
+  // ── Filter ───────────────────────────────────────────────
+  filterWrapper: {
+    alignSelf: 'flex-start',
+    marginTop: 10,
+  },
+  filterBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Colors.searchBackground,
+    borderWidth: 1,
+    borderColor: Colors.searchBorder,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 9,
+  },
+  filterText: {
+    fontSize: 12,
+    fontWeight: '500',
+    color: Colors.textBody,
   },
 });
