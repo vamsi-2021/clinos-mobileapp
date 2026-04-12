@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {Colors} from '../../constants/theme';
+import {Colors} from '../../../constants/theme';
 
 export const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: Colors.backgroundPage},
@@ -53,4 +53,12 @@ export const styles = StyleSheet.create({
     borderRadius: 8,
   },
   viewButtonText: {fontSize: 13, fontWeight: '600', color: Colors.white},
+  emptyContainer: {
+    alignItems: 'center',
+    marginTop: 40,
+  },
+  emptyText: {
+    fontSize: 16,
+    color: '#999',
+  },
 });

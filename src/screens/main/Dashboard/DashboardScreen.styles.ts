@@ -1,5 +1,5 @@
 import {Dimensions, StyleSheet} from 'react-native';
-import {Colors} from '../../constants/theme';
+import {Colors} from '../../../constants/theme';
 
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
@@ -116,16 +116,6 @@ export const styles = StyleSheet.create({
   trendLabel: {
     fontSize: 12,
     color: Colors.textMuted,
-  },
-  statIconBox: {
-    width: 48,
-    height: 48,
-    borderRadius: 14,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  statIcon: {
-    fontSize: 24,
   },
   // ── Card wrapper ──────────────────────────────────────────────
   card: {

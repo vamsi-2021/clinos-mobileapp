@@ -18,6 +18,28 @@ export const GlobalStyles = StyleSheet.create({
     color: Colors.textHeading,
     marginLeft: 12
   },
+  card: {
+    borderRadius: 12,
+    borderColor: Colors.searchBorder,
+    borderWidth: 1,
+    marginBottom: 12,
+    backgroundColor: Colors.white,
+  },
+  cardInner: {
+    marginHorizontal: 16,
+    marginVertical: 20,
+    flex: 1,
+  },
+  statIconBox: {
+    width: 48,
+    height: 48,
+    borderRadius: 14,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  statIcon: {
+    fontSize: 24,
+  },
   // ── Header ────────────────────────────────────────────────────
   header: {
     flexDirection: 'row',
@@ -158,6 +180,7 @@ export const GlobalStyles = StyleSheet.create({
     flex: 1,
     fontSize: 15,
     color: Colors.textHeading,
+    marginLeft: 8,
   },
 
   // ── Filter ───────────────────────────────────────────────
@@ -179,5 +202,6 @@ export const GlobalStyles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '500',
     color: Colors.textBody,
+    marginHorizontal: 8,
   },
 });

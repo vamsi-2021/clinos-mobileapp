@@ -8,10 +8,10 @@ import {
 //import {Pressable} from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
-import { DrawerParamList } from '../../types/navigation';
-import { Colors } from '../../constants/theme';
+import { DrawerParamList } from '../../../types/navigation';
+import { Colors } from '../../../constants/theme';
 import { styles, BAR_AREA_WIDTH, CHART_LABEL_WIDTH, MAX_CHART_VALUE, CHART_X_VALUES, BAR_ROW_HEIGHT } from './DashboardScreen.styles';
-import { api } from '../../utils/api';
+import { api } from '../../../utils/api';
 
 import {
   PatientsIcon,
@@ -22,9 +22,9 @@ import {
   CheckCircleIcon,
   RecentIcon,
   RightArrowIcon,
-} from '../../assets/icons';
-import AppHeader from '../../components/common/AppHeader';
-import { GlobalStyles } from '../../styles/GlobalStyles';
+} from '../../../assets/icons';
+import AppHeader from '../../../components/common/AppHeader';
+import { GlobalStyles } from '../../../styles/GlobalStyles';
 
 type DashboardScreenProps = {
   navigation: DrawerNavigationProp<DrawerParamList, 'Dashboard'>;
@@ -415,7 +415,7 @@ const DashboardScreen = ({ navigation }: DashboardScreenProps) => {
                   <Text style={styles.trendLabel}> {card.trendLabel}</Text>
                 </View>
               </View>
-              <View style={[styles.statIconBox, { backgroundColor: card.iconBg }]}>
+              <View style={[GlobalStyles.statIconBox, { backgroundColor: card.iconBg }]}>
                 <card.Icon width={24} height={24} stroke={card.iconColor} />
               </View>
             </View>

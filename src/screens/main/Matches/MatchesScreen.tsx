@@ -7,11 +7,11 @@ import {
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {DrawerNavigationProp} from '@react-navigation/drawer';
-import {DrawerParamList} from '../../types/navigation';
-import {Colors} from '../../constants/theme';
+import {DrawerParamList} from '../../../types/navigation';
+import {Colors} from '../../../constants/theme';
 import {styles} from './MatchesScreen.styles';
-import AppHeader from '../../components/common/AppHeader';
-import { GlobalStyles } from '../../styles/GlobalStyles';
+import AppHeader from '../../../components/common/AppHeader';
+import { GlobalStyles } from '../../../styles/GlobalStyles';
 
 type MatchesScreenProps = {
   navigation: DrawerNavigationProp<DrawerParamList, 'Matches'>;
