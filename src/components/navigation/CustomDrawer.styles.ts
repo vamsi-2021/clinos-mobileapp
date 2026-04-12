@@ -1,0 +1,188 @@
+import {StyleSheet} from 'react-native';
+import {Colors} from '../../constants/theme';
+
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: Colors.drawerBackground,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+  },
+  logoRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  logoBox: {
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    //backgroundColor: Colors.primary,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  logoText: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: Colors.white,
+  },
+  closeButton: {
+    width: 36,
+    height: 36,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  closeIcon: {
+    fontSize: 18,
+    color: Colors.textMuted,
+  },
+  divider: {
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: Colors.drawerSurface,
+    marginHorizontal: 0,
+  },
+  aiBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    margin: 16,
+    padding: 14,
+    backgroundColor: Colors.darkCard,
+    borderRadius: 12,
+  },
+  aiBannerLabel: {
+    fontSize: 11,
+    color: Colors.textBody,
+    marginBottom: 2,
+  },
+  aiBannerTitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: Colors.white,
+  },
+  navSection: {
+    paddingHorizontal: 12,
+    paddingTop: 8,
+    flex: 1,
+  },
+  navItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 14,
+    paddingVertical: 13,
+    paddingHorizontal: 14,
+    borderRadius: 10,
+    marginBottom: 2,
+  },
+  navItemActive: {
+    backgroundColor: Colors.drawerSurface,
+  },
+  navLabel: {
+    fontSize: 16,
+    color: Colors.textMuted,
+    fontWeight: '500',
+  },
+  navLabelActive: {
+    color: Colors.secondary,
+    fontWeight: '600',
+  },
+  bottom: {
+    paddingBottom: 8,
+  },
+  aiButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    margin: 16,
+    paddingVertical: 14,
+    paddingHorizontal: 18,
+    borderRadius: 12,
+    gap: 10,
+  },
+  aiButtonText: {
+    flex: 1,
+    fontSize: 15,
+    fontWeight: '700',
+    color: Colors.white,
+  },
+  userRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 14,
+    gap: 12,
+  },
+  avatar: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: Colors.secondary,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  avatarInitial: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: Colors.drawerBackground,
+  },
+  userInfo: {
+    flex: 1,
+  },
+  userName: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: Colors.white,
+  },
+  userEmail: {
+    fontSize: 12,
+    color: Colors.textBody,
+    marginTop: 1,
+  },
+  userSection: {
+    position: 'relative',
+  },
+  accountMenu: {
+    position: 'absolute',
+    bottom: '100%',
+    left: 12,
+    right: 12,
+    backgroundColor: Colors.white,
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    zIndex: 10,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: -2},
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 10,
+  },
+  accountMenuTitle: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: Colors.textHeading,
+    marginBottom: 10,
+    paddingTop: 4,
+  },
+  accountMenuDivider: {
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: Colors.border,
+    marginVertical: 8,
+  },
+  signOutRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    paddingTop: 2,
+    paddingBottom: 4,
+  },
+  signOutText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: Colors.danger,
+  },
+});
