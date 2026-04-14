@@ -7,7 +7,7 @@ type CardProps = {
   style?: ViewStyle;
 };
 
-function Card({children, style}: CardProps): JSX.Element {
+function Card({children, style}: CardProps): React.JSX.Element {
   return <View style={[styles.card, style]}>{children}</View>;
 }
 

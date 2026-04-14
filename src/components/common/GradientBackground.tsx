@@ -17,7 +17,7 @@ function GradientBackground({
   width,
   height,
   iconSize,
-}: GradientBackgroundProps): JSX.Element {
+}: GradientBackgroundProps): React.JSX.Element {
   const containerSize = typeof width === 'number' ? width : 0;
   const offset = iconSize ? (containerSize - iconSize) / 2 : 0;
 

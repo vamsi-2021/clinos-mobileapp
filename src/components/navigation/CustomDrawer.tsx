@@ -40,7 +40,7 @@ const NAV_ITEMS: NavItem[] = [
   {key: 'Matches', label: 'Matches', Icon: CirclesIcon},
 ];
 
-function CustomDrawer(props: DrawerContentComponentProps): JSX.Element {
+function CustomDrawer(props: DrawerContentComponentProps): React.JSX.Element {
   const {navigation, state} = props;
   const activeRoute = state.routes[state.index].name;
   const {logout} = useAuth();
