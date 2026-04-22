@@ -235,7 +235,7 @@ const DonutSegments = ({
   // Boundary angles are the start of each segment
   const boundaryAngles = segmentRanges.map(s => s.startDeg);
 
-  const ticks: React.JSX.Element[] = [];
+  const ticks: React.ReactElement[] = [];
   for (let i = 0; i < TICK_COUNT; i++) {
     const angleDeg = (i / TICK_COUNT) * 360;
     const angleRad = (angleDeg * Math.PI) / 180;

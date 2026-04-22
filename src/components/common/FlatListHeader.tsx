@@ -39,12 +39,15 @@ const FlatListHeader = ({
             options={filterOptions}
             selected={selectedFilter}
             onSelect={onFilterSelect}
+            variant="dropdown"
         />
         {secondaryFilterOptions && secondaryFilterOptions.length > 0 && selectedSecondaryFilter && onSecondaryFilterSelect ? (
             <FilterBar
                 options={secondaryFilterOptions}
                 selected={selectedSecondaryFilter}
                 onSelect={onSecondaryFilterSelect}
+                variant="dropdown"
+                showFilterIcon={false}
             />
         ) : null}
     </View>
