@@ -12,12 +12,14 @@ import {
   AiIcon,
   AiIntelligenceIcon,
   ButtonGradientBGIcon,
+  CheckCircleIcon,
   ChevronDownIcon,
   ChevronRightIcon,
   CirclesIcon,
   DashboardIcon,
   IconGradientBGIcon,
   LogoutIcon,
+  PatientQueueIcon,
   PatientsIcon,
   TrialsIcon,
 } from '../../assets/icons';
@@ -28,16 +30,17 @@ import { useAuth } from '../../context/AuthContext';
 import GradientIconButton from '../common/GradientIconButton';
 
 type NavItem = {
-  key: 'Dashboard' | 'Patients' | 'Trials' | 'Matches';
+  key: 'Dashboard' | 'PatientQueue' | 'Patients' | 'Trials' | 'Matches';
   label: string;
   Icon: React.FC<SvgProps>;
 };
 
 const NAV_ITEMS: NavItem[] = [
-  {key: 'Dashboard', label: 'Dashboard', Icon: DashboardIcon},
-  {key: 'Patients', label: 'Patients', Icon: PatientsIcon},
-  {key: 'Trials', label: 'Trials', Icon: TrialsIcon},
-  {key: 'Matches', label: 'Matches', Icon: CirclesIcon},
+  { key: 'Dashboard', label: 'Dashboard', Icon: DashboardIcon },
+  { key: 'PatientQueue', label: 'Patient Queue', Icon: PatientQueueIcon },
+  { key: 'Patients', label: 'Patients', Icon: PatientsIcon },
+  { key: 'Trials', label: 'Trials', Icon: TrialsIcon },
+  { key: 'Matches', label: 'Matches', Icon: CirclesIcon },
 ];
 
 function CustomDrawer(props: DrawerContentComponentProps) {

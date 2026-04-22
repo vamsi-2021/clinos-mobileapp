@@ -6,6 +6,7 @@ import DashboardScreen from '../screens/main/Dashboard/DashboardScreen';
 import PatientsScreen from '../screens/main/Patients/PatientsScreen';
 import TrialsScreen from '../screens/main/Trails/TrialsScreen';
 import MatchesScreen from '../screens/main/Matches/MatchesScreen';
+import PatientQueueScreen from '../screens/main/PatientQueue/PatientQueueScreen';
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
@@ -24,6 +25,7 @@ function MainNavigator() {
       <Drawer.Screen name="Patients" component={PatientsScreen} />
       <Drawer.Screen name="Trials" component={TrialsScreen} />
       <Drawer.Screen name="Matches" component={MatchesScreen} />
+      <Drawer.Screen name="PatientQueue" component={PatientQueueScreen} />
     </Drawer.Navigator>
   );
 }

@@ -13,4 +13,5 @@ export type DrawerParamList = {
   Patients: undefined;
   Trials: undefined;
   Matches: undefined;
+  PatientQueue: undefined;
 };
