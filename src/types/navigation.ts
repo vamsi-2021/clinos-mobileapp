@@ -14,4 +14,7 @@ export type DrawerParamList = {
   Trials: undefined;
   Matches: undefined;
   PatientQueue: undefined;
+  Investigate: undefined;
+  Protocols: undefined;
+  AiChatbot: undefined;
 };

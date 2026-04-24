@@ -3,6 +3,7 @@ import {
   View,
   Text,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {DrawerContentComponentProps} from '@react-navigation/drawer';
@@ -12,35 +13,41 @@ import {
   AiIcon,
   AiIntelligenceIcon,
   ButtonGradientBGIcon,
-  CheckCircleIcon,
+  ChatIcon,
   ChevronDownIcon,
   ChevronRightIcon,
   CirclesIcon,
   DashboardIcon,
-  IconGradientBGIcon,
+  DataIcon,
+  InfoIcon,
+  InvestigateIcon,
   LogoutIcon,
   PatientQueueIcon,
   PatientsIcon,
+  ProtocolIcon,
+  RecentIcon,
   TrialsIcon,
 } from '../../assets/icons';
-import GradientBackground from '../common/GradientBackground';
 import { SvgProps } from 'react-native-svg';
 import { GlobalStyles } from '../../styles/GlobalStyles';
 import { useAuth } from '../../context/AuthContext';
 import GradientIconButton from '../common/GradientIconButton';
 
 type NavItem = {
-  key: 'Dashboard' | 'PatientQueue' | 'Patients' | 'Trials' | 'Matches';
+  key: 'Dashboard' | 'PatientQueue' | 'Investigate' | 'Protocols' | 'AiChatbot' | 'Patients' | 'Trials' | 'Matches';
   label: string;
   Icon: React.FC<SvgProps>;
 };
 
 const NAV_ITEMS: NavItem[] = [
-  { key: 'Dashboard', label: 'Dashboard', Icon: DashboardIcon },
-  { key: 'PatientQueue', label: 'Patient Queue', Icon: PatientQueueIcon },
-  { key: 'Patients', label: 'Patients', Icon: PatientsIcon },
-  { key: 'Trials', label: 'Trials', Icon: TrialsIcon },
-  { key: 'Matches', label: 'Matches', Icon: CirclesIcon },
+  { key: 'Dashboard',   label: 'Dashboard',    Icon: DashboardIcon },
+  { key: 'PatientQueue',label: 'Patient Queue', Icon: PatientQueueIcon },
+  { key: 'Investigate', label: 'Investigate',   Icon: InvestigateIcon },
+  { key: 'Protocols',   label: 'Protocols',     Icon: ProtocolIcon },
+  { key: 'AiChatbot',   label: 'AI Chatbot',    Icon: ChatIcon },
+  { key: 'Patients',    label: 'Patients',      Icon: PatientsIcon },
+  { key: 'Trials',      label: 'Trials',        Icon: TrialsIcon },
+  { key: 'Matches',     label: 'Matches',       Icon: CirclesIcon },
 ];
 
 function CustomDrawer(props: DrawerContentComponentProps) {
@@ -56,7 +63,10 @@ function CustomDrawer(props: DrawerContentComponentProps) {
       <View style={styles.header}>
         <View style={styles.logoRow}>
           <GradientIconButton icon={<CirclesIcon />} />
-          <Text style={styles.logoText}>TrialMatch</Text>
+          <View>
+            <Text style={styles.logoText}>ClinOS</Text>
+            <Text style={styles.logoSubText}>Clinical Intelligence OS</Text>
+          </View>
         </View>
         <TouchableOpacity onPress={() => navigation.closeDrawer()} style={styles.closeButton}>
           <Text style={styles.closeIcon}>✕</Text>
@@ -69,7 +79,7 @@ function CustomDrawer(props: DrawerContentComponentProps) {
       <View style={styles.aiBanner}>
         <AiIntelligenceIcon width={20} height={20} stroke={Colors.secondary} />
         <View>
-          <Text style={styles.aiBannerLabel}>Eligibility Intelligence</Text>
+          <Text style={styles.aiBannerLabel}>TrailMatch Engine</Text>
           <Text style={styles.aiBannerTitle}>AI-Powered Matching</Text>
         </View>
       </View>
@@ -77,7 +87,7 @@ function CustomDrawer(props: DrawerContentComponentProps) {
       <View style={styles.divider} />
 
       {/* Nav Items */}
-      <View style={styles.navSection}>
+      <ScrollView style={styles.navSection} showsVerticalScrollIndicator={false}>
         {NAV_ITEMS.map(item => {
           const isActive = activeRoute === item.key;
           return (
@@ -97,7 +107,7 @@ function CustomDrawer(props: DrawerContentComponentProps) {
             </TouchableOpacity>
           );
         })}
-      </View>
+      </ScrollView>
 
       {/* Bottom Section */}
       <View style={styles.bottom}>
