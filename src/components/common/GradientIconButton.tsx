@@ -10,6 +10,7 @@ interface GradientIconButtonProps {
   iconSize?: number;
   borderRadius?: number;
   icon: React.ReactElement;
+  disabled?: boolean;
 }
 
 const GradientIconButton: React.FC<GradientIconButtonProps> = ({
@@ -17,27 +18,29 @@ const GradientIconButton: React.FC<GradientIconButtonProps> = ({
   iconSize = 22,
   borderRadius = 8,
   icon,
+  disabled = false,
 }) => {
   return (
     <View
       style={[
         styles.container,
-        {
-          width: size,
-          height: size,
-          borderRadius,
-        },
+        { width: size, height: size, borderRadius },
+        disabled && styles.containerDisabled,
       ]}
     >
-      <IconGradientBGIcon
-        width={size}
-        height={size}
-        style={styles.background}
-      />
+      {!disabled && (
+        <IconGradientBGIcon
+          width={size}
+          height={size}
+          style={styles.background}
+        />
+      )}
       {React.cloneElement(icon, {
         width: iconSize,
         height: iconSize,
-        stroke: (icon.props as any).stroke ?? Colors.white,
+        stroke: disabled
+          ? Colors.textMuted
+          : ((icon.props as any).stroke ?? Colors.white),
       } as any)}
     </View>
   );
@@ -48,6 +51,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     overflow: 'hidden',
+  },
+  containerDisabled: {
+    backgroundColor: Colors.inputBorder,
   },
   background: {
     position: 'absolute',
