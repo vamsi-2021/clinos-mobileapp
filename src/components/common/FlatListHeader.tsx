@@ -8,8 +8,8 @@ import { Colors } from '../../constants/theme';
 type Props = {
     headerTitle: string;
     headerSub: string;
-    searchQuery: string;
-    onSearchChange: (text: string) => void;
+    searchQuery?: string;
+    onSearchChange?: (text: string) => void;
     selectedFilter?: FilterOption;
     onFilterSelect?: (option: FilterOption) => void;
     filterOptions?: FilterOption[];
@@ -39,7 +39,9 @@ const FlatListHeader = ({
     <View style={GlobalStyles.headerCenter}>
         <Text style={GlobalStyles.headerTitle}>{headerTitle}</Text>
         <Text style={GlobalStyles.headerSub}>{headerSub}</Text>
-        <SearchBar value={searchQuery} onChangeText={onSearchChange} />
+        {searchQuery !== undefined && onSearchChange ? (
+            <SearchBar value={searchQuery} onChangeText={onSearchChange} />
+        ) : null}
         {filterOptions && filterOptions.length > 0 && selectedFilter && onFilterSelect ? (
             <FilterBar
                 options={filterOptions}
