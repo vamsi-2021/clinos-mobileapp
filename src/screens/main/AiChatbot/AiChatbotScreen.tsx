@@ -148,54 +148,57 @@ const AiChatbotScreen = () => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={0}>
 
-        {/* Controls */}
-        <View style={styles.controls}>
-          <Text style={styles.screenTitle}>AI Protocol Chatbot</Text>
-          <Text style={styles.screenSub}>
-            RAG-powered protocol Q&A with criterion citations
-          </Text>
+        {/* Scrollable content: controls + messages */}
+        <ScrollView
+          ref={scrollRef}
+          style={styles.flex}
+          contentContainerStyle={styles.scrollContent}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+          onContentSizeChange={() =>
+            scrollRef.current?.scrollToEnd({ animated: false })
+          }>
 
-          <Text style={styles.fieldLabel}>Select Trial</Text>
-          <TouchableOpacity
-            ref={trialBtnRef}
-            style={styles.dropdown}
-            activeOpacity={0.8}
-            onPress={openDropdown}>
-            <Text style={[styles.dropdownText, !selectedTrial && styles.dropdownPlaceholder]}>
-              {selectedTrial ? selectedTrial.label : 'Choose a trial for context...'}
+          {/* Controls */}
+          <View style={styles.controls}>
+            <Text style={styles.screenTitle}>AI Protocol Chatbot</Text>
+            <Text style={styles.screenSub}>
+              RAG-powered protocol Q&A with criterion citations
             </Text>
-            <ChevronDownIcon width={18} height={18} stroke={Colors.textMuted} />
-          </TouchableOpacity>
 
-          <Text style={[styles.fieldLabel, { marginTop: 12 }]}>
-            Patient Token (optional)
-          </Text>
-          <TextInput
-            style={styles.tokenInput}
-            placeholder="e.g., PT-001"
-            placeholderTextColor={Colors.textMuted}
-            value={patientToken}
-            onChangeText={setPatientToken}
-          />
+            <Text style={styles.fieldLabel}>Select Trial</Text>
+            <TouchableOpacity
+              ref={trialBtnRef}
+              style={styles.dropdown}
+              activeOpacity={0.8}
+              onPress={openDropdown}>
+              <Text style={[styles.dropdownText, !selectedTrial && styles.dropdownPlaceholder]}>
+                {selectedTrial ? selectedTrial.label : 'Choose a trial for context...'}
+              </Text>
+              <ChevronDownIcon width={18} height={18} stroke={Colors.textMuted} />
+            </TouchableOpacity>
 
-          <View style={styles.warningBanner}>
-            <InvestigateIcon width={18} height={18} stroke={Colors.warning} />
-            <Text style={styles.warningText}>
-              Always verify AI responses against the full protocol before acting.
+            <Text style={[styles.fieldLabel, { marginTop: 12 }]}>
+              Patient Token (optional)
             </Text>
+            <TextInput
+              style={styles.tokenInput}
+              placeholder="e.g., PT-001"
+              placeholderTextColor={Colors.textMuted}
+              value={patientToken}
+              onChangeText={setPatientToken}
+            />
+
+            <View style={styles.warningBanner}>
+              <InvestigateIcon width={18} height={18} stroke={Colors.warning} />
+              <Text style={styles.warningText}>
+                Always verify AI responses against the full protocol before acting.
+              </Text>
+            </View>
           </View>
-        </View>
 
-        {/* Chat card: messages + input */}
-        <View style={styles.chatCard}>
-          <ScrollView
-            ref={scrollRef}
-            style={styles.chatArea}
-            contentContainerStyle={styles.chatContent}
-            showsVerticalScrollIndicator
-            onContentSizeChange={() =>
-              scrollRef.current?.scrollToEnd({ animated: false })
-            }>
+          {/* Messages */}
+          <View style={styles.messagesArea}>
             {messages.map(msg =>
               msg.role === 'bot' ? (
                 <View key={msg.id} style={styles.botRow}>
@@ -223,12 +226,11 @@ const AiChatbotScreen = () => {
                 </View>
               </View>
             )}
-          </ScrollView>
+          </View>
+        </ScrollView>
 
-          {/* Divider */}
-          <View style={styles.inputDivider} />
-
-          {/* Input bar */}
+        {/* Input bar — fixed above keyboard */}
+        <View style={styles.inputBarOuter}>
           <View style={styles.inputBar}>
             <TextInput
               style={[styles.input, inputFocused && styles.inputFocused]}
@@ -395,24 +397,28 @@ const styles = StyleSheet.create({
     lineHeight: 18,
   },
 
-  // Chat card
-  chatCard: {
-    flex: 1,
+  // Scroll + messages
+  scrollContent: {
+    paddingBottom: 8,
+  },
+  messagesArea: {
     marginHorizontal: 16,
-    marginVertical: 8,
+    marginTop: 8,
     backgroundColor: Colors.white,
     borderRadius: 14,
     borderWidth: 1,
     borderColor: Colors.inputBorder,
-    overflow: 'hidden',
+    padding: 14,
+    gap: 12,
   },
-  chatArea: {
-    flex: 1,
+
+  // Input bar outer (fixed above keyboard)
+  inputBarOuter: {
+    backgroundColor: Colors.backgroundPage,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: Colors.inputBorder,
   },
-  inputDivider: {
-    height: StyleSheet.hairlineWidth,
-    backgroundColor: Colors.inputBorder,
-  },
+
   chatContent: {
     padding: 14,
     gap: 12,
