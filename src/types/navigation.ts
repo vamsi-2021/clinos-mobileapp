@@ -18,3 +18,9 @@ export type DrawerParamList = {
   Protocols: undefined;
   AiChatbot: undefined;
 };
+
+export type MainStackParamList = {
+  DrawerMain: undefined;
+  PatientReview: { patientId: string };
+  ProtocolCriteria: { protocolId: string };
+};

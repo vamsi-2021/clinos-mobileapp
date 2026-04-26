@@ -1,10 +1,21 @@
 import React from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { CompositeNavigationProp } from '@react-navigation/native';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { DrawerParamList, MainStackParamList } from '../../../types/navigation';
 import { Colors } from '../../../constants/theme';
 import AppHeader from '../../../components/common/AppHeader';
 import FlatListHeader from '../../../components/common/FlatListHeader';
 import ProtocolCard, { Protocol } from './ProtocolCard';
+
+type Props = {
+  navigation: CompositeNavigationProp<
+    DrawerNavigationProp<DrawerParamList, 'Protocols'>,
+    NativeStackNavigationProp<MainStackParamList>
+  >;
+};
 
 
 const ALL_PROTOCOLS: Protocol[] = [
@@ -60,7 +71,7 @@ const ALL_PROTOCOLS: Protocol[] = [
   },
 ];
 
-const ProtocolsScreen = () => (
+const ProtocolsScreen = ({ navigation }: Props) => (
   <SafeAreaView style={styles.container}>
     <AppHeader />
     <FlatList
@@ -73,7 +84,7 @@ const ProtocolsScreen = () => (
           headerSub="Manage trial protocols and review eligibility criteria (H1 Gate)"
         />
       }
-      renderItem={({ item }) => <ProtocolCard item={item} />}
+      renderItem={({ item }) => <ProtocolCard item={item} navigation={navigation} />}
     />
   </SafeAreaView>
 );

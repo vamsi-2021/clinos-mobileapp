@@ -1,7 +1,16 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { CompositeNavigationProp } from '@react-navigation/native';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Colors } from '../../../constants/theme';
-import { ChevronRightIcon, DataIcon, ProtocolIcon, ShareIcon } from '../../../assets/icons';
+import { ChevronRightIcon, ProtocolIcon, ShareIcon } from '../../../assets/icons';
+import { DrawerParamList, MainStackParamList } from '../../../types/navigation';
+
+type CardNavigation = CompositeNavigationProp<
+  DrawerNavigationProp<DrawerParamList, 'Protocols'>,
+  NativeStackNavigationProp<MainStackParamList>
+>;
 
 export type ReviewStatus = 'pending_review' | 'approved' | 'active';
 
@@ -29,7 +38,7 @@ const InfoRow = ({ label, children }: { label: string; children: React.ReactNode
   </View>
 );
 
-const ProtocolCard = ({ item }: { item: Protocol }) => {
+const ProtocolCard = ({ item, navigation }: { item: Protocol; navigation: CardNavigation }) => {
   const badge = REVIEW_BADGE[item.reviewStatus];
 
   return (
@@ -64,7 +73,11 @@ const ProtocolCard = ({ item }: { item: Protocol }) => {
       <View style={styles.divider} />
 
       <View style={styles.actions}>
-        <TouchableOpacity style={styles.viewBtn} activeOpacity={0.75}>
+        <TouchableOpacity
+          style={styles.viewBtn}
+          activeOpacity={0.75}
+          onPress={() => navigation.navigate('ProtocolCriteria', { protocolId: item.id })}
+        >
           <ProtocolIcon width={16} height={16} stroke={Colors.textHeading} />
           <Text style={styles.viewBtnText}>View Criteria</Text>
           <ChevronRightIcon width={16} height={16} stroke={Colors.textMuted} />

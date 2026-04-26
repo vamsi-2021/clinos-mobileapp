@@ -1,8 +1,10 @@
 import React, { useMemo, useState } from 'react';
 import { FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { CompositeNavigationProp } from '@react-navigation/native';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
-import { DrawerParamList } from '../../../types/navigation';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { DrawerParamList, MainStackParamList } from '../../../types/navigation';
 import { styles } from './PatientQueueScreen.styles';
 import AppHeader from '../../../components/common/AppHeader';
 import FlatListHeader from '../../../components/common/FlatListHeader';
@@ -10,7 +12,10 @@ import { FilterOption } from '../../../components/common/FilterBar';
 import PatientQueueCard, { QueuePatient } from './PatientQueueCard';
 
 type Props = {
-  navigation: DrawerNavigationProp<DrawerParamList, 'PatientQueue'>;
+  navigation: CompositeNavigationProp<
+    DrawerNavigationProp<DrawerParamList, 'PatientQueue'>,
+    NativeStackNavigationProp<MainStackParamList>
+  >;
 };
 
 const DIAGNOSIS_OPTIONS: FilterOption[] = [
@@ -139,7 +144,7 @@ const PatientQueueScreen = ({ navigation }: Props) => {
             secondaryFilterOptions={SORT_OPTIONS}
           />
         }
-        renderItem={({ item }) => <PatientQueueCard patient={item} />}
+        renderItem={({ item }) => <PatientQueueCard patient={item} navigation={navigation} />}
       />
     </SafeAreaView>
   );

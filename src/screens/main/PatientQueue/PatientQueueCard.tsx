@@ -1,8 +1,12 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
+import { CompositeNavigationProp } from '@react-navigation/native';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Colors } from '../../../constants/theme';
 import { EyeIcon } from '../../../assets/icons';
+import { DrawerParamList, MainStackParamList } from '../../../types/navigation';
 
 export type QueuePatient = {
   id: string;
@@ -16,6 +20,11 @@ export type QueuePatient = {
   markers: { label: string; positive: boolean }[];
   investigateCount?: number;
 };
+
+type CardNavigation = CompositeNavigationProp<
+  DrawerNavigationProp<DrawerParamList, 'PatientQueue'>,
+  NativeStackNavigationProp<MainStackParamList>
+>;
 
 function scoreColor(score: number): string {
   if (score >= 90) return Colors.statusEligible;
@@ -60,7 +69,7 @@ const ScoreRing = ({ score }: { score: number }) => {
   );
 };
 
-const EligibilityQueueCard = ({ patient }: { patient: QueuePatient }) => {
+const EligibilityQueueCard = ({ patient, navigation }: { patient: QueuePatient; navigation: CardNavigation }) => {
   const completionWidth = `${patient.dataCompleteness}%` as const;
   const stageColor = stageBadgeColor(patient.stage);
 
@@ -123,7 +132,11 @@ const EligibilityQueueCard = ({ patient }: { patient: QueuePatient }) => {
 
       {/* Actions */}
       <View style={styles.actions}>
-        <TouchableOpacity style={styles.reviewBtn} activeOpacity={0.75}>
+        <TouchableOpacity
+          style={styles.reviewBtn}
+          activeOpacity={0.75}
+          onPress={() => navigation.navigate('PatientReview', { patientId: patient.id })}
+        >
           <EyeIcon width={16} height={16} stroke={Colors.textPrimary} />
           <Text style={styles.reviewText}>Review</Text>
         </TouchableOpacity>
