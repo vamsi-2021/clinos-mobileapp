@@ -4,16 +4,14 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
-  StyleSheet,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RouteProp } from '@react-navigation/native';
 import { MainStackParamList } from '../../../types/navigation';
 import { Colors } from '../../../constants/theme';
-import { CheckCircleIcon, CircleXMarkIcon, DnaIcon, TrendingIcon } from '../../../assets/icons';
+import { CheckCircleIcon, CircleXMarkIcon, DefenceIcon, DnaIcon, TrendingIcon } from '../../../assets/icons';
 import ActionModal, { ActionModalType } from '../../../components/common/ActionModal';
-import { GlobalStyles } from '../../../styles/GlobalStyles';
 import GradientBackground from '../../../components/common/GradientBackground';
 import { styles } from './PatientReviewScreen.styles';
 
@@ -28,6 +26,7 @@ type TrialCriterion = {
   status: CriterionStatus;
   criterion: string;
   patientValue: string;
+  required?: string;
 };
 
 type TrialMatch = {
@@ -81,11 +80,13 @@ const MOCK_DATA: Record<string, {
             status: 'MET',
             criterion: 'ALK rearrangement confirmed by FISH or NGS',
             patientValue: 'EML4-ALK fusion',
+            required: 'FISH/NGS+',
           },
           {
             status: 'MET',
             criterion: 'ECOG performance status 0-1',
             patientValue: '1',
+            required: '0-1',
           },
           {
             status: 'UNMET',
@@ -108,11 +109,13 @@ const MOCK_DATA: Record<string, {
             status: 'MET',
             criterion: 'ALK rearrangement confirmed by FISH or NGS',
             patientValue: 'EML4-ALK fusion',
+            required: 'FISH/NGS+',
           },
           {
             status: 'UNMET',
             criterion: 'KRAS G12C mutation confirmed by local or central testing',
             patientValue: 'ALK rearrangement',
+            required: 'KRAS G12C+',
           },
         ],
         summary:
@@ -139,6 +142,8 @@ function badgeLabel(type: TrialMatch['badgeType']) {
   if (type === 'ineligible') return 'ineligible';
   return 'eligible';
 }
+
+const COL_WIDTHS = { status: 90, criterion: 180, patientVal: 130, required: 110 };
 
 const StatusChip = ({ status }: { status: CriterionStatus }) => (
   <View style={[styles.statusChip, status === 'MET' ? styles.chipMet : styles.chipUnmet]}>
@@ -182,22 +187,26 @@ const TrialCard = ({
 
       {/* Criteria table */}
       <View style={styles.criteriaTable}>
-        {/* Header */}
-        <View style={styles.criteriaHeaderRow}>
-          <Text style={[styles.criteriaHeaderCell, { flex: 1.1 }]}>Status</Text>
-          <Text style={[styles.criteriaHeaderCell, { flex: 2 }]}>Criterion</Text>
-          <Text style={[styles.criteriaHeaderCell, { flex: 1.5 }]}>Patient{'\n'}Value</Text>
-        </View>
-        {/* Rows */}
-        {trial.criteria.map((c, i) => (
-          <View key={i} style={[styles.criteriaRow, i < trial.criteria.length - 1 && styles.criteriaRowBorder]}>
-            <View style={{ flex: 1.1 }}>
-              <StatusChip status={c.status} />
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <View style={styles.criteriaInner}>
+            <View style={styles.criteriaHeaderRow}>
+              <Text style={[styles.criteriaHeaderCell, { width: COL_WIDTHS.status }]}>Status</Text>
+              <Text style={[styles.criteriaHeaderCell, { width: COL_WIDTHS.criterion }]}>Criterion</Text>
+              <Text style={[styles.criteriaHeaderCell, { width: COL_WIDTHS.patientVal }]}>Patient Value</Text>
+              <Text style={[styles.criteriaHeaderCell, { width: COL_WIDTHS.required }]}>Required</Text>
             </View>
-            <Text style={[styles.criteriaCriterionText, { flex: 2 }]}>{c.criterion}</Text>
-            <Text style={[styles.criteriaValueText, { flex: 1.5 }]}>{c.patientValue}</Text>
+            {trial.criteria.map((c, i) => (
+              <View key={i} style={[styles.criteriaRow, i === trial.criteria.length - 1 && styles.criteriaRowLast]}>
+                <View style={{ width: COL_WIDTHS.status, paddingRight: 8 }}>
+                  <StatusChip status={c.status} />
+                </View>
+                <Text style={[styles.criteriaCriterionText, { width: COL_WIDTHS.criterion }]}>{c.criterion}</Text>
+                <Text style={[styles.criteriaValueText, { width: COL_WIDTHS.patientVal }]}>{c.patientValue}</Text>
+                <Text style={[styles.criteriaRequiredText, { width: COL_WIDTHS.required }]}>{c.required ?? '—'}</Text>
+              </View>
+            ))}
           </View>
-        ))}
+        </ScrollView>
       </View>
 
       {/* Summary */}
@@ -212,15 +221,13 @@ const TrialCard = ({
       {trial.badgeType === 'requires_review' && (
         <View style={styles.trialActions}>
           <TouchableOpacity
-            style={[GlobalStyles.button, { flex: 1, height: 40, borderRadius: 8, marginTop: 0, marginBottom: 0 }]}
+            style={styles.confirmBtn}
             activeOpacity={0.85}
             onPress={() => setConfirmVisible(true)}
           >
-            <GradientBackground style={{ ...GlobalStyles.buttonGradient }}>
-              <View style={{ paddingHorizontal: 12, flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                <CheckCircleIcon width={16} height={16} stroke={Colors.white} />
-                <Text style={styles.confirmBtnText}>Confirm Eligibility</Text>
-              </View>
+            <GradientBackground style={styles.confirmBtnGradient}>
+              <CheckCircleIcon width={16} height={16} stroke={Colors.white} />
+              <Text style={styles.confirmBtnText}>Confirm Eligibility</Text>
             </GradientBackground>
           </TouchableOpacity>
           <TouchableOpacity
@@ -228,10 +235,8 @@ const TrialCard = ({
             activeOpacity={0.85}
             onPress={() => setIneligibleVisible(true)}
           >
-            <View style={{ paddingHorizontal: 12, flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-              <CircleXMarkIcon width={16} height={16} stroke={Colors.statusIneligible} />
-              <Text style={styles.ineligibleBtnText}>Mark Ineligible</Text>
-            </View>
+            <CircleXMarkIcon width={16} height={16} stroke={Colors.statusIneligible} />
+            <Text style={styles.ineligibleBtnText}>Mark Ineligible</Text>
           </TouchableOpacity>
         </View>
       )}
@@ -272,7 +277,7 @@ const PatientReviewScreen = ({ navigation, route }: Props) => {
         {/* Patient Summary */}
         <View style={styles.sectionCard}>
           <View style={styles.sectionTitleRow}>
-            <Text style={styles.sectionIcon}>🛡</Text>
+            <DefenceIcon width={20} height={20} stroke={Colors.primary} />
             <Text style={styles.sectionTitle}>Patient Summary</Text>
           </View>
           <View style={styles.summaryRow}>

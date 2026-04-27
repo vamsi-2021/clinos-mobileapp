@@ -143,32 +143,34 @@ export const styles = StyleSheet.create({
     fontWeight: '600',
   },
   criteriaTable: {
+    marginBottom: 12,
+  },
+  criteriaInner: {
     borderWidth: 1,
     borderColor: Colors.inputBorder,
-    borderRadius: 10,
-    overflow: 'hidden',
-    marginBottom: 12,
+    borderRadius: 8,
   },
   criteriaHeaderRow: {
     flexDirection: 'row',
-    backgroundColor: Colors.backgroundPage,
+    backgroundColor: Colors.negativeTagBg,
     paddingHorizontal: 12,
     paddingVertical: 10,
   },
   criteriaHeaderCell: {
     fontSize: 12,
     fontWeight: '600',
-    color: Colors.primary,
+    color: Colors.negativeTagText,
   },
   criteriaRow: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 12,
     paddingVertical: 12,
-  },
-  criteriaRowBorder: {
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: 1,
     borderBottomColor: Colors.inputBorder,
+  },
+  criteriaRowLast: {
+    borderBottomWidth: 0,
   },
   criteriaCriterionText: {
     fontSize: 12,
@@ -180,6 +182,12 @@ export const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '600',
     color: Colors.textHeading,
+    lineHeight: 17,
+    paddingRight: 8,
+  },
+  criteriaRequiredText: {
+    fontSize: 12,
+    color: Colors.textMuted,
     lineHeight: 17,
   },
   statusChip: {
@@ -229,6 +237,19 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 12,
   },
+  confirmBtn: {
+    flex: 1,
+    height: 40,
+    borderRadius: 8,
+    overflow: 'hidden',
+  },
+  confirmBtnGradient: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
+  },
   confirmBtnText: {
     fontSize: 13,
     fontWeight: '600',
@@ -237,11 +258,13 @@ export const styles = StyleSheet.create({
   ineligibleBtn: {
     flex: 1,
     height: 40,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
     borderWidth: 1.5,
     borderColor: Colors.statusIneligible,
     borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   ineligibleBtnText: {
     fontSize: 13,

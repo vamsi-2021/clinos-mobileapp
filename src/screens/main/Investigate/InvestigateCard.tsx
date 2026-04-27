@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Colors } from '../../../constants/theme';
 import { styles } from './InvestigateCard.styles';
+import { RecentIcon } from '../../../assets/icons';
 
 export type TierLevel = 'T1' | 'T2' | 'T3';
 
@@ -37,7 +38,7 @@ const InvestigateCard = ({ item }: { item: InvestigateCase }) => {
         </View>
         {item.isOverdue && (
           <View style={styles.overdueRow}>
-            <Text style={styles.overdueIcon}>⏱</Text>
+            <RecentIcon width={16} height={16} stroke={Colors.danger} />
             <Text style={styles.overdueText}>OVERDUE</Text>
           </View>
         )}
