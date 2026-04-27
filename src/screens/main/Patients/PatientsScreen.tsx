@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, FlatList } from 'react-native';
+import { FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { DrawerParamList } from '../../../types/navigation';

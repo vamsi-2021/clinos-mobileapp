@@ -1,14 +1,14 @@
 import React from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import { FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { CompositeNavigationProp } from '@react-navigation/native';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { DrawerParamList, MainStackParamList } from '../../../types/navigation';
-import { Colors } from '../../../constants/theme';
 import AppHeader from '../../../components/common/AppHeader';
 import FlatListHeader from '../../../components/common/FlatListHeader';
 import ProtocolCard, { Protocol } from './ProtocolCard';
+import { styles } from './ProtocolsScreen.styles';
 
 type Props = {
   navigation: CompositeNavigationProp<
@@ -90,14 +90,3 @@ const ProtocolsScreen = ({ navigation }: Props) => (
 );
 
 export default ProtocolsScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.backgroundPage,
-  },
-  list: {
-    padding: 16,
-    gap: 12,
-  },
-});

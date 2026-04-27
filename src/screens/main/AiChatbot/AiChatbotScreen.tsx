@@ -6,7 +6,6 @@ import {
   Platform,
   Pressable,
   ScrollView,
-  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
@@ -17,15 +16,14 @@ import { Colors } from '../../../constants/theme';
 import AppHeader from '../../../components/common/AppHeader';
 import {
   BotIcon,
-  ChatIcon,
   ChevronDownIcon,
   InvestigateIcon,
   PersonIcon,
-  RightArrowIcon,
   SendIcon,
 } from '../../../assets/icons';
 import GradientIconButton from '../../../components/common/GradientIconButton';
 import Markdown from 'react-native-markdown-display';
+import { styles, markdownStyles } from './AiChatbotScreen.styles';
 
 const BotAvatar = () => (
   <View style={styles.botAvatar}>
@@ -75,23 +73,6 @@ How can I help you navigate this protocol today?`;
 const INITIAL_MESSAGES: Message[] = [
   { id: '0', role: 'bot', text: INITIAL_BOT_TEXT },
 ];
-
-const markdownStyles = {
-  body:       { fontSize: 13, color: Colors.textHeading, lineHeight: 20 },
-  strong:     { fontWeight: '700' as const, color: Colors.textHeading },
-  em:         { fontStyle: 'italic' as const },
-  bullet_list:{ marginTop: 4 },
-  ordered_list:{ marginTop: 4 },
-  list_item:  { marginTop: 2 },
-  code_inline:{ backgroundColor: Colors.backgroundScreen, borderRadius: 4, paddingHorizontal: 4, fontFamily: 'monospace', fontSize: 12 },
-  fence:      { backgroundColor: Colors.backgroundScreen, borderRadius: 8, padding: 10, fontSize: 12, fontFamily: 'monospace' },
-  blockquote: { backgroundColor: Colors.backgroundScreen, borderLeftColor: Colors.primary, borderLeftWidth: 3, paddingHorizontal: 10, marginVertical: 4 },
-  hr:         { backgroundColor: Colors.inputBorder, height: 1, marginVertical: 8 },
-  heading1:   { fontSize: 18, fontWeight: '700' as const, color: Colors.textHeading, marginBottom: 4 },
-  heading2:   { fontSize: 16, fontWeight: '700' as const, color: Colors.textHeading, marginBottom: 4 },
-  heading3:   { fontSize: 14, fontWeight: '600' as const, color: Colors.textHeading, marginBottom: 2 },
-  link:       { color: Colors.primary },
-};
 
 const AiChatbotScreen = () => {
   const [selectedTrial, setSelectedTrial] = useState<Trial | null>(null);
@@ -148,7 +129,6 @@ const AiChatbotScreen = () => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={0}>
 
-        {/* Scrollable content: controls + messages */}
         <ScrollView
           ref={scrollRef}
           style={styles.flex}
@@ -159,7 +139,6 @@ const AiChatbotScreen = () => {
             scrollRef.current?.scrollToEnd({ animated: false })
           }>
 
-          {/* Controls */}
           <View style={styles.controls}>
             <Text style={styles.screenTitle}>AI Protocol Chatbot</Text>
             <Text style={styles.screenSub}>
@@ -197,7 +176,6 @@ const AiChatbotScreen = () => {
             </View>
           </View>
 
-          {/* Messages */}
           <View style={styles.messagesArea}>
             {messages.map(msg =>
               msg.role === 'bot' ? (
@@ -229,7 +207,6 @@ const AiChatbotScreen = () => {
           </View>
         </ScrollView>
 
-        {/* Input bar — fixed above keyboard */}
         <View style={styles.inputBarOuter}>
           <View style={styles.inputBar}>
             <TextInput
@@ -263,7 +240,6 @@ const AiChatbotScreen = () => {
         </View>
       </KeyboardAvoidingView>
 
-      {/* Trial dropdown modal */}
       <Modal
         visible={dropdownVisible}
         transparent
@@ -319,254 +295,3 @@ const AiChatbotScreen = () => {
 };
 
 export default AiChatbotScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.backgroundPage,
-  },
-  flex: {
-    flex: 1,
-  },
-
-  // Controls section
-  controls: {
-    paddingHorizontal: 16,
-    paddingTop: 16,
-    paddingBottom: 8,
-  },
-  screenTitle: {
-    fontSize: 24,
-    fontWeight: '800',
-    color: Colors.textHeading,
-  },
-  screenSub: {
-    fontSize: 13,
-    color: Colors.textBody,
-    marginTop: 4,
-    marginBottom: 16,
-    lineHeight: 18,
-  },
-  fieldLabel: {
-    fontSize: 13,
-    color: Colors.textMuted,
-    marginBottom: 6,
-  },
-  dropdown: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: Colors.white,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: Colors.inputBorder,
-    paddingHorizontal: 14,
-    height: 40,
-  },
-  dropdownText: {
-    flex: 1,
-    fontSize: 15,
-    color: Colors.textHeading,
-  },
-  dropdownPlaceholder: {
-    color: Colors.textMuted,
-  },
-  tokenInput: {
-    backgroundColor: Colors.white,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: Colors.inputBorder,
-    paddingHorizontal: 14,
-    height: 40,
-    fontSize: 15,
-    color: Colors.textHeading,
-  },
-  warningBanner: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-    marginTop: 12,
-    backgroundColor: Colors.statusPendingBg,
-    borderRadius: 10,
-    padding: 8,
-  },
-  warningText: {
-    flex: 1,
-    fontSize: 12,
-    color: Colors.warning,
-    fontWeight: '600',
-    lineHeight: 18,
-  },
-
-  // Scroll + messages
-  scrollContent: {
-    paddingBottom: 8,
-  },
-  messagesArea: {
-    marginHorizontal: 16,
-    marginTop: 8,
-    backgroundColor: Colors.white,
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: Colors.inputBorder,
-    padding: 14,
-    gap: 12,
-  },
-
-  // Input bar outer (fixed above keyboard)
-  inputBarOuter: {
-    backgroundColor: Colors.backgroundPage,
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: Colors.inputBorder,
-  },
-
-  chatContent: {
-    padding: 14,
-    gap: 12,
-  },
-  bubble: {
-    maxWidth: '70%',
-    borderRadius: 12,
-    padding: 12,
-  },
-  botRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: 10,
-  },
-  userRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    justifyContent: 'flex-end',
-    gap: 10,
-  },
-  botAvatar: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: Colors.backgroundScreen,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 2,
-    flexShrink: 0,
-  },
-  userAvatar: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: Colors.secondary,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 2,
-    flexShrink: 0,
-  },
-  userAvatarText: {
-    fontSize: 15,
-    fontWeight: '700',
-    color: Colors.white,
-  },
-  bubbleBot: {
-    maxWidth: '80%',
-    backgroundColor: Colors.backgroundScreen,
-  },
-  typingBubble: {
-    paddingHorizontal: 20,
-    paddingVertical: 14,
-  },
-  bubbleUser: {
-    alignSelf: 'flex-end',
-    maxWidth: '80%',
-    backgroundColor: Colors.primary,
-  },
-  msgText: {
-    fontSize: 13,
-    color: Colors.textHeading,
-    lineHeight: 20,
-  },
-  msgTextUser: {
-    color: Colors.white,
-  },
-  warningItalic: {
-    color: Colors.warning,
-    fontStyle: 'italic',
-  },
-
-  // Input bar
-  inputBar: {
-    flexDirection: 'row',
-    alignItems: 'stretch',
-    gap: 10,
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-  },
-  input: {
-    flex: 1,
-    backgroundColor: Colors.white,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: Colors.inputBorder,
-    paddingHorizontal: 14,
-    height: 40,
-    fontSize: 14,
-    color: Colors.textHeading,
-  },
-  inputFocused: {
-    borderColor: Colors.primary,
-    borderWidth: 1.5,
-  },
-  sendBtn: {
-    width: 40,
-    height: 40,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    overflow: 'hidden',
-  },
-  sendBtnDisabled: {},
-  footer: {
-    fontSize: 11,
-    color: Colors.textMuted,
-    textAlign: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    lineHeight: 16,
-  },
-
-  // Dropdown modal
-  overlay: {
-    flex: 1,
-  },
-  dropdownSheet: {
-    backgroundColor: Colors.white,
-    borderRadius: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.12,
-    shadowRadius: 8,
-    elevation: 6,
-    overflow: 'hidden',
-  },
-  dropdownOption: {
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    backgroundColor: Colors.white,
-  },
-  dropdownOptionFirst: {
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
-  },
-  dropdownOptionLast: {
-    borderBottomLeftRadius: 12,
-    borderBottomRightRadius: 12,
-  },
-  dropdownOptionSelected: {
-    backgroundColor: Colors.secondary,
-  },
-  dropdownOptionText: {
-    fontSize: 14,
-    color: Colors.textPrimary,
-  },
-  dropdownOptionTextSelected: {
-    color: Colors.white,
-    fontWeight: '600',
-  },
-});

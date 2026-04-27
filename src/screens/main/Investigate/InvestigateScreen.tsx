@@ -1,13 +1,13 @@
 import React, { useMemo, useState } from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import { FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { DrawerParamList } from '../../../types/navigation';
-import { Colors } from '../../../constants/theme';
 import AppHeader from '../../../components/common/AppHeader';
 import FlatListHeader from '../../../components/common/FlatListHeader';
 import { FilterOption } from '../../../components/common/FilterBar';
 import InvestigateCard, { InvestigateCase, TierLevel } from './InvestigateCard';
+import { styles } from './InvestigateScreen.styles';
 
 type Props = {
   navigation: DrawerNavigationProp<DrawerParamList, 'Investigate'>;
@@ -145,14 +145,3 @@ const InvestigateScreen = ({ navigation }: Props) => {
 };
 
 export default InvestigateScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.backgroundPage,
-  },
-  list: {
-    padding: 16,
-    gap: 12,
-  },
-});

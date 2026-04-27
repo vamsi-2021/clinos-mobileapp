@@ -1,19 +1,12 @@
 import React, { useMemo, useState } from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  TouchableOpacity,
-} from 'react-native';
+import { FlatList } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { DrawerParamList } from '../../../types/navigation';
 import { styles } from './TrialsScreen.styles';
 import AppHeader from '../../../components/common/AppHeader';
-import { GlobalStyles } from '../../../styles/GlobalStyles';
 import TrialCard from './TrialCard';
-import FilterBar, { FilterOption } from '../../../components/common/FilterBar';
-import SearchBar from '../../../components/common/SearchBar';
+import { FilterOption } from '../../../components/common/FilterBar';
 import FlatListHeader from '../../../components/common/FlatListHeader';
 
 type TrialsScreenProps = {
