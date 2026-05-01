@@ -12,7 +12,12 @@ import { Patient } from './PatientsScreen';
 import { GlobalStyles } from '../../../styles/GlobalStyles';
 import { styles } from './PatientCard.styles';
 
-const PatientCard = ({ patient }: { patient: Patient }) => (
+type PatientCardProps = {
+  patient: Patient;
+  onTrialsPress?: () => void;
+};
+
+const PatientCard = ({ patient, onTrialsPress }: PatientCardProps) => (
   <TouchableOpacity style={GlobalStyles.card} activeOpacity={0.8}>
     <View style={GlobalStyles.cardInner}>
       <View style={styles.cardHeader}>
@@ -25,7 +30,9 @@ const PatientCard = ({ patient }: { patient: Patient }) => (
         {patient.markers.map(m => <MarkerBadge key={m.label} {...m} />)}
       </View>
       <View style={styles.divider} />
-      <TrialsFooter count={patient.eligibleTrials} />
+      <TouchableOpacity onPress={onTrialsPress} activeOpacity={0.7} disabled={!onTrialsPress}>
+        <TrialsFooter count={patient.eligibleTrials} />
+      </TouchableOpacity>
     </View>
   </TouchableOpacity>
 );

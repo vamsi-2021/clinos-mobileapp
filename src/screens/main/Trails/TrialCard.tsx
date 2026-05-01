@@ -100,3 +100,5 @@ const TrialCard = ({ trial }: { trial: Trial }) => {
         </View>
     );
 };
+
+export default TrialCard;
