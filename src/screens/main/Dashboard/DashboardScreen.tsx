@@ -157,6 +157,7 @@ const ACTION_ITEMS = [
     desc: 'High-confidence matches awaiting coordinator review',
     action: 'Review',
     backgroundColor: Colors.statusActiveBgLight,
+    navigateTo: 'PatientQueue' as const,
   },
   {
     Icon: InfoIcon,
@@ -167,6 +168,7 @@ const ACTION_ITEMS = [
     desc: 'Conflicting biomarker data requires clinical review',
     action: 'Verify',
     backgroundColor: Colors.statusPendingBgLight,
+    navigateTo: 'Investigate' as const,
   },
   {
     Icon: RecentIcon,
@@ -177,6 +179,7 @@ const ACTION_ITEMS = [
     desc: 'Re-run matching for affected patients',
     action: 'Update',
     backgroundColor: Colors.statusNeutralBgLight,
+    navigateTo: 'Protocols' as const,
   },
 ];
 
@@ -235,7 +238,7 @@ const DonutSegments = ({
   // Boundary angles are the start of each segment
   const boundaryAngles = segmentRanges.map(s => s.startDeg);
 
-  const ticks: React.JSX.Element[] = [];
+  const ticks: React.ReactElement[] = [];
   for (let i = 0; i < TICK_COUNT; i++) {
     const angleDeg = (i / TICK_COUNT) * 360;
     const angleRad = (angleDeg * Math.PI) / 180;
@@ -458,7 +461,7 @@ const DashboardScreen = ({ navigation }: DashboardScreenProps) => {
           <View style={styles.card}>
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionTitle}>Trial Enrollment Progress</Text>
-              <Pressable style={styles.viewAllBtn}>
+              <Pressable style={styles.viewAllBtn} onPress={() => navigation.navigate('PatientQueue')}>
                 <Text style={styles.viewAllText}>View All</Text>
                 <RightArrowIcon width={12} height={12} stroke={Colors.textMuted} style={{ marginLeft: 4 }} />
               </Pressable>
@@ -545,7 +548,7 @@ const DashboardScreen = ({ navigation }: DashboardScreenProps) => {
           <View style={styles.card}>
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionTitle}>Recent Matches</Text>
-              <Pressable style={styles.viewAllBtn}>
+              <Pressable style={styles.viewAllBtn} onPress={() => navigation.navigate('Matches')}>
                 <Text style={styles.viewAllText}>View All</Text>
                 <RightArrowIcon width={12} height={12} stroke={Colors.textMuted} style={{ marginLeft: 4 }} />
               </Pressable>
@@ -580,7 +583,7 @@ const DashboardScreen = ({ navigation }: DashboardScreenProps) => {
                   <Text style={styles.actionTitle}>{item.title}</Text>
                   <Text style={styles.actionDesc}>{item.desc}</Text>
                 </View>
-                <Pressable>
+                <Pressable onPress={() => navigation.navigate(item.navigateTo)}>
                   <Text style={styles.actionBtn}>{item.action}</Text>
                 </Pressable>
               </View>

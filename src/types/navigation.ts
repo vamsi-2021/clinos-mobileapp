@@ -13,4 +13,14 @@ export type DrawerParamList = {
   Patients: undefined;
   Trials: undefined;
   Matches: undefined;
+  PatientQueue: undefined;
+  Investigate: undefined;
+  Protocols: undefined;
+  AiChatbot: undefined;
+};
+
+export type MainStackParamList = {
+  DrawerMain: undefined;
+  PatientReview: { patientId: string };
+  ProtocolCriteria: { protocolId: string };
 };

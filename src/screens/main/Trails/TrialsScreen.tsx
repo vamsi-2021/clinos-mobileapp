@@ -1,19 +1,12 @@
 import React, { useMemo, useState } from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  TouchableOpacity,
-} from 'react-native';
+import { FlatList } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { DrawerParamList } from '../../../types/navigation';
 import { styles } from './TrialsScreen.styles';
 import AppHeader from '../../../components/common/AppHeader';
-import { GlobalStyles } from '../../../styles/GlobalStyles';
 import TrialCard from './TrialCard';
-import FilterBar, { FilterOption } from '../../../components/common/FilterBar';
-import SearchBar from '../../../components/common/SearchBar';
+import { FilterOption } from '../../../components/common/FilterBar';
 import FlatListHeader from '../../../components/common/FlatListHeader';
 
 type TrialsScreenProps = {
@@ -45,10 +38,19 @@ const CANCER_TYPE_OPTIONS: FilterOption[] = [
   { label: 'Bladder Cancer',    value: 'bladder' },
 ];
 
+const PHASE_OPTIONS: FilterOption[] = [
+  { label: 'All Phases', value: 'all' },
+  { label: 'Phase 1', value: 'phase 1' },
+  { label: 'Phase 2', value: 'phase 2' },
+  { label: 'Phase 3', value: 'phase 3' },
+  { label: 'Phase 4', value: 'phase 4' },
+];
+
 const TrialsScreen = ({ navigation }: TrialsScreenProps) => {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFilter, setSelectedFilter] = useState<FilterOption>(CANCER_TYPE_OPTIONS[0]);
+  const [selectedSecondaryFilter, setSelectedSecondaryFilter] = useState<FilterOption>(PHASE_OPTIONS[0]);
 
     // ✅ Filtering + Search Logic
   const filteredTrials = useMemo(() => {
@@ -84,6 +86,9 @@ const TrialsScreen = ({ navigation }: TrialsScreenProps) => {
             selectedFilter={selectedFilter}
             onFilterSelect={setSelectedFilter}
             filterOptions={CANCER_TYPE_OPTIONS}
+            selectedSecondaryFilter={selectedSecondaryFilter}
+            onSecondaryFilterSelect={setSelectedSecondaryFilter}
+            secondaryFilterOptions={PHASE_OPTIONS}
           />
         }
         renderItem={({ item }) => (

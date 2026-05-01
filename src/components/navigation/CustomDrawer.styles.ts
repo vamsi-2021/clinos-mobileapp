@@ -31,6 +31,11 @@ export const styles = StyleSheet.create({
     fontWeight: '700',
     color: Colors.white,
   },
+  logoSubText: {
+    fontSize: 11,
+    color: Colors.textBody,
+    marginTop: 1,
+  },
   closeButton: {
     width: 36,
     height: 36,

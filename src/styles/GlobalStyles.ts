@@ -107,7 +107,7 @@ export const GlobalStyles = StyleSheet.create({
     borderRadius: 12,
     paddingHorizontal: 14,
     marginBottom: 20,
-    height: 52,
+    height: 40,
   },
   inputIcon: {
     marginRight: 10,
@@ -196,7 +196,7 @@ export const GlobalStyles = StyleSheet.create({
     borderColor: Colors.searchBorder,
     borderRadius: 8,
     paddingHorizontal: 8,
-    paddingVertical: 9,
+    height: 40,
   },
   filterText: {
     fontSize: 12,
